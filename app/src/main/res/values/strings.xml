@@ -1,0 +1,189 @@
+<resources>
+    <string name="app_name">Матричный калькулятор</string>
+    <string name="title_theory">Теория</string>
+    <string name="title_SLE">СЛАУ</string>
+    <string name="title_operations">Операции</string>
+    <string name="app_id" translatable="false">ca-app-pub-9193176037122415~9633966613</string>
+    <string name="ad_activity_main" translatable="false">ca-app-pub-9193176037122415/5469213094</string>
+    <string name="ad_activity_result" translatable="false">ca-app-pub-9193176037122415/1668557125</string>
+    <string name="reward_video_ad" translatable="false">ca-app-pub-9193176037122415/8950201250</string>
+    <string name="remove_interstitial_reward_video" translatable="false">ca-app-pub-9193176037122415/3578934006</string>
+    <string name="interstitial_ad" translatable="false">ca-app-pub-9193176037122415/3097332676</string>
+
+
+    <!-- Splash Screen -->
+    <string name="title_activity_main">Калькулятор матриц</string>
+    <string name="splash_made_by" translatable="false">made by \nkartollika &amp; brotherthunder</string>
+    <string name="splash_about" translatable="false">About</string>
+    <string name="splash_title">Калькулятор\nматриц</string>
+    <!-- End of Splash Screen -->
+
+
+    <!-- Settings Activity -->
+    <string name="settings_category_dimensions">Размерности</string>
+    <string name="settings_default_rows_title">Размерность строк</string>
+    <string name="settings_default_columns_title">Размерность столбцов</string>
+    <string name="settings_default_rows_summary">Количество строк для матриц по умолчанию</string>
+    <string name="settings_default_columns_summary">Количество строк по умолчанию</string>
+
+    <string name="settings_category_app_settings">Настройки приложения</string>
+    <string name="settings_experimental_title">Экспериментальная версия</string>
+    <string name="settings_experimental_summary">Открывает возможность задавать матрицы больших размеров</string>
+    <string name="confirm_experimental">Включение данной опции может заметно сказаться на работе
+        вашего устройства при выполнении операций с матрицами\nВы уверены, что хотите включить опцию?
+    </string>
+    <string name="settings_nightmode_title">Ночная тема</string>
+    <string name="settings_nightmode_summary">Включить ночную тему</string>
+    <string name="settings_allow_checking_update_title">Обновления</string>
+    <string name="settings_allow_checking_update_summary">Проверять наличие новых обновлений при запуске</string>
+
+    <string name="settings_category_information">О приложении</string>
+    <string name="settings_app_version_title">Версия приложения</string>
+    <string name="settings_app_version_summary">%1$s</string>
+    <string name="easter_egg">Вы нашли пасхалку с:</string>
+    <string name="settings_send_email_title">Написать разработчику</string>
+    <string name="settings_send_email_summary">Сообщить об ошибке или предложить идею</string>
+    <string name="settings_rate_in_gp_title">Оценить в Google Play</string>
+    <string name="settings_rate_in_gp_summary">Нравится приложение? Пожалуйста, оцените его в магазине</string>
+    <string name="settings_check_updates_manually_title">Обновить</string>
+    <string name="settings_check_updates_manually_summary">Проверить на наличие обновлений</string>
+
+    <!-- End of Settings Activity -->
+
+
+    <!-- Main Activity -->
+    <string name="gauss">Решить методом Гаусса</string>
+    <string name="choose_one">Выберите нужную операцию</string>
+    <string name="input_const">Введите значение константы</string>
+    <string name="input_pow">Введите степень</string>
+    <string name="number_not_found">Ошибка! Число не введено или имеет неверный формат</string>
+    <string name="choose_operation">Выберите операцию</string>
+    <string name="to_solve">Решить</string>
+    <string name="settings">Настройки</string>
+    <string name="rate">Оценить</string>
+    <string name="gp_not_found">Google Play не был найден на устройстве</string>
+    <!-- End of Main Activity -->
+
+
+    <!-- Update Checker Service -->
+    <string name="checkerservice_update_available">Доступно обновление!</string>
+    <string name="checkerservice_click_to_update">Нажмите, чтобы обновить приложение до версии %1$s</string>
+    <string name="checkerservice_no_update_available">Новых обновлений нет</string>
+    <string name="checkerservice_click_notification_to_proceed">Нажмите на соответстующее уведомление на панели, чтобы обновить приложение</string>
+    <string name="checkerservice_connection_error">Ошибка подключения при попытке запросить обновления</string>
+    <!-- End of Update Checker Service -->
+
+
+    <!-- Input Matrix Activity -->
+    <string name="header_input_matrix">Создать новую матрицу</string>
+    <string name="identity_matrix">Единичная</string>
+    <string name="zero_matrix">Нулевая</string>
+    <string name="count_of_rows">Строк: %1$d</string>
+    <string name="count_of_columns">Столбцов: %1$d</string>
+    <string name="save">Сохранить</string>
+    <string name="hide_all_views">Долгое нажатие позволяет убрать все элементы из верхней половины экрана. Это удобно!</string>
+    <string name="hide_card">Спрятать настройки</string>
+    <string name="show_card">Показать настройки</string>
+    <!-- End of Input Matrix Activity -->
+
+
+    <!-- Show Result Activity -->
+    <string name="previous_step">Предыдущий этап</string>
+    <string name="next_step">Следующий этап</string>
+    <string name="step_by_step_title">Пошаговое решение</string>
+    <string name="inform_about_experimental">Чтобы создавать матрицы больших размеров, выберите опцию \'Экспериментальная версия\' в настройках</string>
+    <string name="save_result">Сохранить итог..</string>
+    <string name="to_slot_1">в матрицу A</string>
+    <string name="to_slot_2">в матрицу B</string>
+    <string name="save_to_slot_1_success">Матрица сохранена в слот А</string>
+    <string name="save_to_slot_2_success">Матрица сохранена в слот В</string>
+    <string name="save_to_slot_fail">Матрица не существует\nСохранить не удалось</string>
+    <string name="matrix_does_not_exist">Обратной матрицы не существует</string>
+    <string name="nothing_to_solve">Нечего решать :с</string>
+    <string name="to_system_slot">в слот матрицы</string>
+    <string name="save_to_slot_success">Матрица сохранена в слот системы</string>
+    <string name="inverse_result">Обратная матрица:</string>
+    <string name="determinant_result">Определитель матрицы:</string>
+    <!-- End of Show Result Activity -->
+
+
+    <!-- App Rater -->
+    <string name="apprater_not_show">Нет, спасибо</string>
+    <string name="apprater_remind_later">Позже</string>
+    <string name="apprater_title">Оценить</string>
+    <!-- End of App Rater -->
+
+
+    <!-- Steps of Operations -->
+    <string name="pow_start">Найдем матрицы, которые необходимо будет перемножить для получения
+        результата методом разложения степени по основанию 2:\n
+    </string>
+    <string name="needed_step_pow">Необходимая промежуточная матрица: </string>
+    <string name="step_pow">Промежуточная матрица: </string>
+    <string name="pow_result">Перемножив все необходимые промежуточные матрицы, получим:</string>
+    <string name="invalid_dimensions">Неверные размеры матрицы</string>
+    <string name="invalid_value_in_cell">Неверное выражение в ячейке %1$d : %2$d
+    </string>
+    <string name="dimension_to_input">Введите размерность</string>
+    <string name="multiply_line">Умножим &lt;u>&lt;b>%1$d&lt;/b>&lt;/u> строку на &lt;u>&lt;b>%2$s&lt;/b>&lt;/u>
+    </string>
+    <string name="subtract_line_from_multiplied_line">Вычтем из строки &lt;u>&lt;b>%1$d&lt;/b>&lt;/u> строку
+        &lt;b>&lt;u>%2$d&lt;/b>&lt;/u>, умноженную на
+        &lt;u>&lt;b>%3$s&lt;/b>&lt;/u>
+    </string>
+    <string name="swap_lines">Переставим &lt;u>&lt;b>%1$d&lt;/b>&lt;/u> строку
+        со строкой &lt;u>&lt;b>%2$d&lt;/b>&lt;/u>
+    </string>
+    <string name="system_has_solves">Система имеет решение:</string>
+    <string name="system_has_no_solves">Система не имеет решений, так как существует противоречие в
+        %1$d строке\n( 0 != %2$s)
+    </string>
+    <string name="number_is_even">x<sub>%1$d</sub> - любое</string>
+    <string name="scroll_to_see_more">прокрути вниз, чтобы увидеть больше</string>
+    <string name="multiply_diagonal_elements">Перемножим элементы, стоящие на главной диагонали и умножим на (-1)</string>
+    <string name="transition_sign">знак перестановки</string>
+    <string name="triangle_start">Приведем матрицу к верхнетреугольному виду</string>
+    <string name="e_start">Приведем матрицу к единичному виду</string>
+    <string name="gauss_start">Решим систему уравнений методом Гаусса</string>
+    <!-- End Steps of Operations -->
+
+
+    <!-- ADS -->
+    <string name="failed_watch_ad_connection_problem">Не получилось загрузить рекламу. Проверьте настройки соединения</string>
+    <string name="watch">Посмотреть</string>
+    <string name="remove_ads">Убрать рекламу</string>
+    <string name="succ_blocked_interstitials">Вы отключили межстраничные объявления на %1$d минут</string>
+    <string name="succ_blocked_banners">Вы отключили баннеры на %1$d минут</string>
+    <string name="error_try_watch_ad_again">Все виды рекламы в данный момент скрыты</string>
+    <string name="message_about_removing_ads">Посмотреть рекламный ролик, чтобы убрать:\nБаннеры - на %1$d минут\nМежстранничные объявления - на %2$d минут</string>
+    <string name="banners">Баннеры</string>
+    <string name="interstitials">Межстраничные</string>
+    <string name="try_again_open_reward_video">Видео еще не загрузилось. Попробуйте снова!</string>
+    <string name="block_ads_title">Выберите нужную опцию, чтобы заблокировать рекламу:</string>
+    <string name="block_ads">%1$s - заблокировать на %2$d минут</string>
+    <!-- End of ADS -->
+
+
+    <!-- Shared Stuff -->
+    <string name="ad_load_failed">Не удалось загрузить рекламный блок :с</string>
+    <string name="email_subject">Матричный калькулятор (Отзыв)</string>
+    <string name="email_text">Докладываю о..</string>
+    <string name="plus" translatable="false">+</string>
+    <string name="minus" translatable="false">-</string>
+    <string name="matrix_A" translatable="false">A</string>
+    <string name="matrix_B" translatable="false">B</string>
+    <string name="default_value">0</string>
+    <string name="back">Назад</string>
+    <string name="in_development">В разработке</string>
+    <string name="binaries">Бинарные</string>
+    <string name="unaries">Унарные</string>
+    <string name="setup_dims">Настроить размерности</string>
+    <string name="confirm">Хорошо</string>
+    <string name="rate_big">Нравится приложение?
+        Оцените его в магазине Google Play. Это не займет у вас и минуты,
+        но вы тем самым внесете огромный вклад в дальнейшие проекты.
+        Спасибо за поддержку!
+    </string>
+    <!-- End of Shared Stuff -->
+
+</resources>

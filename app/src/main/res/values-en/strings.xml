@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Matrix calculator</string>
+    <string name="title_activity_main">Matrix calculator</string>
+    <string name="title_operations">Operations</string>
+    <string name="title_theory">Theory</string>
+    <string name="title_SLE">SLAE</string>
+    <string name="identity_matrix">Identity</string>
+    <string name="header_input_matrix">Create new matrix</string>
+    <string name="count_of_rows">
+        Rows: %1$d
+    </string>
+
+    <string name="hide_all_views">Long click to hide all view elements in the top of the screen, Try this!</string>
+
+    <string name="count_of_columns">
+        Columns: %1$d
+    </string>
+
+    <string name="zero_matrix">Zero</string>
+    <string name="default_value">0</string>
+    <string name="rate">Rate app</string>
+    <string name="settings">Settings</string>
+    <string name="step_by_step">Step by step solution</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="splash_title">Matrix\ncalculator</string>
+    <string name="save">Save</string>
+    <string name="choose_operation">Choose operation</string>
+    <string name="equal">Solve</string>
+    <string name="back">Back</string>
+    <string name="in_progress">In progress</string>
+    <string name="unaries">Unary</string>
+    <string name="binaries">Binary</string>
+    <string name="hide_card">Hide settings</string>
+    <string name="show_card">Show settings</string>
+    <string name="experimental">Experimental version</string>
+    <string name="easter_egg">You have found an easter egg c:</string>
+    <string name="input_pow">Enter the power</string>
+    <string name="input_const">Enter the constant</string>
+    <string name="save_result">Save result..</string>
+    <string name="apprater_remind_later">Remind me later</string>
+    <string name="apprater_title">Rate app</string>
+    <string name="scroll_to_see_more">scroll down to see more</string>
+    <string name="inp_dimens">Enter the dimension of the matrix</string>
+    <string name="invalid_dim">Invalid values of dimensions</string>
+    <string name="matrix_dnexist">Inverse matrix doesn\'t exist</string>
+    <string name="to_slot_1">in slot A</string>
+    <string name="to_slot_2">in slot B</string>
+    <string name="to_slot_system">in slot</string>
+    <string name="save_to_slot_1_success">Matrix has stored in slot A</string>
+    <string name="save_to_slot_2_success">Matrix has stored in slot B</string>
+    <string name="save_to_slot_success">Matrix has stored in "System" slot</string>
+    <string name="apprater_not_show">No, thanks</string>
+    <string name="gp_not_found">Google Play services resources not found</string>
+    <string name="determinant_result">Determinant:</string>
+    <string name="inverse_result">Inverse matrix:</string>
+    <string name="choose_one">Select the required operation</string>
+    <string name="adver">Failed to load ad banner :c</string>
+    <string name="number_not_found">Error! Number not found</string>
+    <string name="save_to_slot_Fail">Matrix doesn\'t\n exist Saving failed</string>
+    <string name="hasSolves">The system has a solution:</string>
+
+    <string name="mult_diag">Multiply elements on the main diagonal and multiply by (-1)</string>
+    <string name="trans_sign">the transposition sign</string>
+    <string name="gauss">Solve using Gauss Elimination</string>
+    <string name="gauss_start">Use Gauss Elimination</string>
+    <string name="triangle_start">Transforming the matrix to an upper triangle form</string>
+    <string name="e_start">Transform the matrix to an identity form</string>
+    <string name="nothing_to_solve">Nothing to solve :с</string>
+
+    <string name="invalid_value">Invalid value in cell %1$d : %1$d
+    </string>
+
+    <string name="even">x<sub>%1$d</sub> - even</string>
+
+    <string name="multi">Multiply row &lt;u>&lt;b>%1$d&lt;/b>&lt;/u>
+         by &lt;u>&lt;b>%2$s&lt;/b>&lt;/u>
+    </string>
+
+    <string name="diff">Subtract from the row &lt;u>&lt;b>%1$d&lt;/b>&lt;/u> row
+        &lt;b>&lt;u>%2$d&lt;/b>&lt;/u>, which multiplied by
+        &lt;u>&lt;b>%3$s&lt;/b>&lt;/u>
+    </string>
+
+    <string name="swap">Swap &lt;u>&lt;b>%1$d&lt;/b>&lt;/u> row
+       with row &lt;u>&lt;b>%2$d&lt;/b>&lt;/u>
+    </string>
+
+    <string name="rows">Rows: %1$d</string>
+
+    <string name="columns">Columns: %1$d</string>
+    <string name="needed_step_pow">Necessary intermediate matrix</string>
+    <string name="step_pow">Intermediate matrix</string>
+
+    <string name="pow_result">Multiply the necessary intermediate matrices and get the result: </string>
+    <string name="big_dims_inform">To create bigger matrices, enable option \'Experimental version\' in settings</string>
+
+    <string name="confirm_experimenta">Enabling this option can affect on your device performance\nAre you sure about switching on this option?
+    </string>
+
+    <string name="noSolves">The system has no solutions because there is an incorrect statement in
+        %1$d row\n( 0 != %2$s)
+    </string>
+
+    <string name="pow_start">Find matrices which should be multiplied using the decomposition method of the power number in base 2:\n</string>
+
+    <string name="apprater_summary">Enjoy this app?
+        Please, take a moment to rate it in Google Play.
+        It won\'t take more, than one minute, but you will make a huge contribution to future projects.
+        Thanks for your support!
+
+    </string>
+    <string name="setup_dims">Setup dimensions</string>
+    <string name="about_app">About</string>
+    <string name="app_version">Application version</string>
+    <string name="darkmode">Nightmode</string>
+    <string name="ondarkmode">Enable nighmode</string>
+    <string name="defrows">Count of rows</string>
+    <string name="defcols">Count of columns</string>
+    <string name="app_settings">Settings</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="rate_in_gp">Rate in Google Play</string>
+    <string name="do_you_like_it">Enjoy this app? Please, take a moment to rate it</string>
+    <string name="defrowssumm">Default count of rows</string>
+    <string name="exp_enable">Enable option to create much bigger matrices</string>
+    <string name="defrowstitle">Default count of rows</string>
+    <string name="defcolstitle">Default count of columns</string>
+    <string name="defcolssumm">Default count of columns</string>
+    <string name="version">to version</string>
+    <string name="clickToUpdate">Click to update the app from Google Play to version %1$s</string>
+    <string name="update_available">New update available</string>
+    <string name="noUpdateAvailable">You are up to date!</string>
+    <string name="update_available_from_settings_part2">Click to notification in panel to update the app from Google Play</string>
+    <string name="watch">Watch</string>
+    <string name="failed_watch_ad_connection_problem">Failed to load the advertisement. Please, check your internet connection</string>
+    <string name="confirm">Okay</string>
+    <string name="permWarning">Giving the permission</string>
+    <string name="locationwarning">Determining the location will allow you to select ads for you more accurately\nAnd also you support the further development of the application and other projects</string>
+    <string name="externalstoragewarning">Writing to the storage is necessary for the stable showing advertisements in the application\nUsing advertising, you support the developer and work on projects</string>
+    <string name="message_about_removing_ads">Watch video advertisement to remove:\nBanners - for %1$d minutes\nIntertitial ads - for %2$d minutes</string>
+    <string name="succ_blocked_interstitials">You blocked interstitial ads for %1$d minutes</string>
+    <string name="error_try_watch_ad_again">All types of advertisements are blocked</string>
+    <string name="succ_blocked_banners">You blocked banners for %1$d minutes</string>
+    <string name="banners">Banners</string>
+    <string name="interstitials">Interstitial</string>
+    <string name="remove_ads">Remove ads</string>
+    <string name="try_again_open_reward_video">Reward video is not loaded yet. Try recall it!</string>
+    <string name="permission_granted">Permission granted</string>
+    <string name="permission_not_granted">Permission not granted</string>
+    <string name="permission_message_dialog">Application will ask you for a GPS permission. This service helps the advertisements fits better depending on your location\n Also, granting this permission will increase revenue by ads and you will help developer with future big projects</string>
+    <string name="conn_error">Connection error while checking new updates</string>
+
+    <!-- String since 1.6 -->
+    <string name="setting_title_allow_checking_update">Updates</string>
+    <string name="setting_allow_checking_update">Check for updates while application starts</string>
+    <string name="setting_title_check_updates_manually">Check updates</string>
+    <string name="setting_check_updates_manually">Check for newest version of application</string>
+
+    <!-- String since 1.6.1 -->
+    <string name="email_item_title">Feedback</string>
+    <string name="email_subject">Matrix calculator (Review)</string>
+    <string name="email_text">Reporting a..</string>
+    <string name="setting_email_summary">Report a bug or offer a functionality</string>
+    <string name="block_ads">%1$s - remove for %2$d minutes</string>
+</resources>

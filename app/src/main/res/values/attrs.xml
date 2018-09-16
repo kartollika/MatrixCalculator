@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorCardBackground" format="color" />
+    <attr name="colorActionButton" format="color" />
+    <attr name="colorInputButton" format="color" />
+    <attr name="colorControlMatrixContentButton" format="color" />
+    <attr name="colorControlMatrixDimensionsButton" format="color" />
+    <attr name="colorSaveButton" format="color" />
+    <attr name="colorControlStepsButton" format="color" />
+    <attr name="colorNoMatrixText" format="color" />
+    <attr name="colorMatrixCellNotDiagonalInactive" format="color" />
+    <attr name="colorMatrixCellNotDiagonalActive" format="color" />
+    <attr name="colorMatrixCellDiagonalInactive" format="color" />
+    <attr name="colorMatrixCellDiagonalActive" format="color" />
+    <attr name="colorMatrixCellAugmentedInactive" format="color" />
+    <attr name="colorMatrixCellAugmentedActive" format="color" />
+    <attr name="colorTextCreateMatrix" format="color" />
+</resources>

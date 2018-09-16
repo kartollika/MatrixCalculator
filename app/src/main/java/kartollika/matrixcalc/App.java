@@ -1,15 +1,18 @@
 package kartollika.matrixcalc;
 
 import android.app.Application;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
 
@@ -81,6 +84,17 @@ public class App extends Application {
                         "\n\n\n==========================\n" +
                         App.getDeviceInfo(activity.getWindowManager()));*/
         context.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
+    }
+
+    public static void openGooglePlay(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+        intent.setData(uri);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException anfe) {
+            Toast.makeText(context, R.string.gp_not_found, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

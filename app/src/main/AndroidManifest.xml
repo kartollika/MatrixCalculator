@@ -8,8 +8,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
-        android:theme="@style/AppTheme">
-        <activity android:name=".activities.SplashScreenActivity">
+        android:theme="@style/ActivityTheme.Primary.Base.Light">
+        <activity
+            android:name=".activities.SplashScreenActivity"
+            android:theme="@style/SplashScreenActivityThemeLight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,13 +20,17 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="Settings">
+            android:label="Settings"
+            android:theme="@style/SettingsActivityThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainHubActivity" />
         </activity>
 
-        <activity android:name=".activities.MainHubActivity" />
+        <activity
+            android:name=".activities.MainHubActivity"
+            android:theme="@style/MainHubActivityThemeLight" />
+        <activity android:name=".activities.ShowResultActivity" />
 
         <service android:name=".utilities.UpdateCheckerService" />
     </application>

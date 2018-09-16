@@ -10,15 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import kartollika.matrixcalc.activities.MainHubActivity;
 import kartollika.matrixcalc.R;
+import kartollika.matrixcalc.activities.MainHubActivity;
 
 public class SplashScreenFragment extends Fragment {
 
     private static final int SPLASH_SCREEN_TIMEOUT = 1500;
 
     public static SplashScreenFragment newInstance() {
-        return new SplashScreenFragment();
+
+        Bundle args = new Bundle();
+
+        SplashScreenFragment fragment = new SplashScreenFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class SplashScreenFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_activity, container, false);
+        View v = inflater.inflate(R.layout.splash_screen_fragment, container, false);
         return v;
     }
 
@@ -47,5 +52,6 @@ public class SplashScreenFragment extends Fragment {
     private void loadMainActivity() {
         Intent i = new Intent(getContext(), MainHubActivity.class);
         startActivity(i);
+        getActivity().finish();
     }
 }

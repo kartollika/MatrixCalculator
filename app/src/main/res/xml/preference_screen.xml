@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:persistent="false"
+        android:title="Размерности">
+        <Preference
+            android:icon="@drawable/ic_view_agenda_black_24dp"
+            android:key="default_rows"
+            android:summary="@string/settings_default_rows_summary"
+            android:title="@string/settings_default_rows_title" />
+        <Preference
+            android:icon="@drawable/ic_view_week_black_24dp"
+            android:key="default_columns"
+            android:summary="@string/settings_default_columns_summary"
+            android:title="@string/settings_default_columns_title" />
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/divider_preference" />
+
+    <PreferenceCategory android:title="Общие настройки">
+        <CheckBoxPreference
+            android:icon="@drawable/ic_extension_black_24dp"
+            android:key="experimental"
+            android:summary="@string/exp_enable"
+            android:title="@string/experimental" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_wb_sunny_black_24dp"
+            android:key="nightmode"
+            android:summary="@string/settings_nightmode_summary"
+            android:title="@string/settings_nightmode_title" />
+
+        <CheckBoxPreference
+            android:icon="@drawable/ic_update_black_24dp"
+            android:key="auto_update"
+            android:summary="@string/setting_allow_checking_update"
+            android:title="@string/setting_title_allow_checking_update" />
+
+    </PreferenceCategory>
+
+    <Preference android:layout="@layout/divider_preference" />
+
+    <PreferenceCategory android:title="О приложении">
+        <Preference
+            android:icon="@drawable/ic_info_black_24dp"
+            android:key="app_version"
+            android:title="@string/version" />
+        <Preference
+            android:icon="@drawable/ic_email_black_24dp"
+            android:key="send_report"
+            android:summary="@string/setting_email_summary"
+            android:title="@string/email_item_title" />
+
+        <Preference
+            android:icon="@drawable/ic_system_update_black_24dp"
+            android:key="check_updates"
+            android:summary="@string/setting_check_updates_manually"
+            android:title="@string/setting_title_check_updates_manually" />
+        <Preference
+            android:icon="@drawable/ic_thumb_up_black_24dp"
+            android:key="open_playmarket"
+            android:summary="@string/settings_rate_in_gp_summary"
+            android:title="@string/settings_rate_in_gp_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

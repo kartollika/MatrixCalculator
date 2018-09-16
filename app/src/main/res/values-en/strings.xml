@@ -52,7 +52,7 @@
     <string name="save_to_slot_2_success">Matrix has stored in slot B</string>
     <string name="save_to_slot_success">Matrix has stored in "System" slot</string>
     <string name="apprater_not_show">No, thanks</string>
-    <string name="gp_not_found">Google Play services resources not found</string>
+    <string name="gp_not_found">Google Play services not found</string>
     <string name="determinant_result">Determinant:</string>
     <string name="inverse_result">Inverse matrix:</string>
     <string name="choose_one">Select the required operation</string>

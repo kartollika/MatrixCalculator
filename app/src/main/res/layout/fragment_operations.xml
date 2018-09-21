@@ -1,10 +1,9 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardBackgroundColor="@color/colorCardBackground"
-    tools:context="kartollika.matrixcalc.fragments.DefaultOperationsHubFragment">
+    app:cardBackgroundColor="?attr/colorCardBackground"
+    app:cardUseCompatPadding="true">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/relativeLayout"
@@ -15,10 +14,9 @@
 
 
         <Button
-            android:id="@+id/btnA"
-            style="@style/Widget.AppCompat.Button.Small"
+            android:id="@+id/buttonA"
             android:layout_width="0dp"
-            android:layout_height="0"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -29,16 +27,15 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="@dimen/ts_input"
-            app:layout_constraintBottom_toTopOf="@+id/btnB"
+            app:layout_constraintBottom_toTopOf="@+id/buttonB"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnB"
-            style="@style/Widget.AppCompat.Button.Small"
+            android:id="@+id/buttonB"
             android:layout_width="0dp"
-            android:layout_height="0"
+            android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -50,19 +47,21 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="@dimen/ts_input"
-            app:layout_constraintBottom_toTopOf="@+id/equals"
+            app:layout_constraintBottom_toTopOf="@+id/buttonSolve"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnA" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonA" />
 
 
         <Button
-            android:id="@+id/operations"
+            android:id="@+id/buttonChooseOperations"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="67dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/ripple_operation"
@@ -70,16 +69,16 @@
             android:text="@string/choose_operation"
             android:textAlignment="center"
             android:textAllCaps="false"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/ts_oper"
-            app:layout_constraintBottom_toBottomOf="@+id/btnB"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/btnA" />
+            app:layout_constraintTop_toTopOf="@+id/buttonA" />
 
 
         <Button
-            android:id="@+id/equals"
-            style="@style/Widget.AppCompat.Button.Small"
+            android:id="@+id/buttonSolve"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"

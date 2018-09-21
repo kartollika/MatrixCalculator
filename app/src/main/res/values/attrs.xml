@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="colorCardBackground" format="color" />
+
     <attr name="colorActionButton" format="color" />
+    <attr name="colorActionButtonRipple" format="color" />
     <attr name="colorInputButton" format="color" />
+    <attr name="colorInputButtonRipple" format="color" />
+
     <attr name="colorControlMatrixContentButton" format="color" />
+    <attr name="colorControlMatrixContentButtonRipple" format="color" />
     <attr name="colorControlMatrixDimensionsButton" format="color" />
+    <attr name="colorControlMatrixDimensionsButtonRipple" format="color" />
     <attr name="colorSaveButton" format="color" />
+    <attr name="colorSaveButtonRipple" format="color" />
     <attr name="colorControlStepsButton" format="color" />
+    <attr name="colorControlStepsButtonRipple" format="color" />
+    <attr name="colorControlStepsButtonDisabled" format="color" />
+    <attr name="colorHideMatrixSettings" format="color" />
+    <attr name="colorHideMatrixSettingsRipple" format="color" />
+    <attr name="colorKeyboard" format="color" />
+    <attr name="colorKeyboardBackground" format="color" />
+    <attr name="colorTextDimensionsInfo" format="color" />
+
     <attr name="colorNoMatrixText" format="color" />
     <attr name="colorMatrixCellNotDiagonalInactive" format="color" />
     <attr name="colorMatrixCellNotDiagonalActive" format="color" />
@@ -15,4 +30,12 @@
     <attr name="colorMatrixCellAugmentedInactive" format="color" />
     <attr name="colorMatrixCellAugmentedActive" format="color" />
     <attr name="colorTextCreateMatrix" format="color" />
+    <attr name="colorSettingIcon" format="color" />
+
+
+    <attr name="colorBottomNavigationIconInactive" format="color" />
+    <attr name="colorBottomNavigationIconActive" format="color" />
+    <attr name="colorSplashActivityTextInfo" format="color" />
+
+    <attr name="colorOperationChosen" format="color" />
 </resources>

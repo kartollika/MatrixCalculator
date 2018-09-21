@@ -56,7 +56,7 @@
     <string name="determinant_result">Determinant:</string>
     <string name="inverse_result">Inverse matrix:</string>
     <string name="choose_one">Select the required operation</string>
-    <string name="adver">Failed to load ad banner :c</string>
+    <string name="ad_load_failed">Failed to load ad banner :c</string>
     <string name="number_not_found">Error! Number not found</string>
     <string name="save_to_slot_Fail">Matrix doesn\'t\n exist Saving failed</string>
     <string name="hasSolves">The system has a solution:</string>
@@ -96,7 +96,7 @@
     <string name="pow_result">Multiply the necessary intermediate matrices and get the result: </string>
     <string name="big_dims_inform">To create bigger matrices, enable option \'Experimental version\' in settings</string>
 
-    <string name="confirm_experimenta">Enabling this option can affect on your device performance\nAre you sure about switching on this option?
+    <string name="confirm_experimental">Enabling this option can affect on your device performance\nAre you sure about switching on this option?
     </string>
 
     <string name="noSolves">The system has no solutions because there is an incorrect statement in
@@ -127,7 +127,7 @@
     <string name="defrowstitle">Default count of rows</string>
     <string name="defcolstitle">Default count of columns</string>
     <string name="defcolssumm">Default count of columns</string>
-    <string name="version">to version</string>
+    <string name="version">Application version</string>
     <string name="clickToUpdate">Click to update the app from Google Play to version %1$s</string>
     <string name="update_available">New update available</string>
     <string name="noUpdateAvailable">You are up to date!</string>
@@ -149,7 +149,7 @@
     <string name="permission_granted">Permission granted</string>
     <string name="permission_not_granted">Permission not granted</string>
     <string name="permission_message_dialog">Application will ask you for a GPS permission. This service helps the advertisements fits better depending on your location\n Also, granting this permission will increase revenue by ads and you will help developer with future big projects</string>
-    <string name="conn_error">Connection error while checking new updates</string>
+    <string name="conn_error">Connection error</string>
 
     <!-- String since 1.6 -->
     <string name="setting_title_allow_checking_update">Updates</string>

@@ -2,8 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorCardBackground">
+    android:layout_height="match_parent">
 
 
     <RelativeLayout
@@ -28,7 +27,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/splash_title"
-            android:textColor="?attr/colorTextCreateMatrix"
+            android:textColor="?attr/colorSplashActivityTextInfo"
             android:textSize="30sp" />
     </RelativeLayout>
 
@@ -45,7 +44,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="@string/splash_made_by"
-            android:textColor="?attr/colorTextCreateMatrix"
+            android:textColor="?attr/colorSplashActivityTextInfo"
             android:textSize="12sp" />
 
         <TextView
@@ -55,7 +54,7 @@
             android:layout_below="@+id/by"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:textColor="?attr/colorTextCreateMatrix"
+            android:textColor="?attr/colorSplashActivityTextInfo"
             android:textSize="12sp"
             tools:text="version: 1.0" />
 

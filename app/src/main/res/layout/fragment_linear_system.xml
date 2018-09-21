@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardBackgroundColor="@color/colorCardBackground"
+    app:cardBackgroundColor="?attr/colorCardBackground"
+    app:cardUseCompatPadding="true"
     tools:context="kartollika.matrixcalc.fragments.LinearSystemHubFragment">
 
     <android.support.constraint.ConstraintLayout
@@ -14,7 +15,7 @@
 
 
         <Button
-            android:id="@+id/system"
+            android:id="@+id/buttonSystem"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -28,9 +29,9 @@
             android:ems="3"
             android:text="@string/matrix_A"
             android:textAllCaps="false"
-            android:textColor="@color/colorButtonText"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/ts_input"
-            app:layout_constraintBottom_toTopOf="@+id/solve_system"
+            app:layout_constraintBottom_toTopOf="@+id/buttonSolve"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -38,7 +39,7 @@
 
 
         <Button
-            android:id="@+id/solve_system"
+            android:id="@+id/buttonSolve"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -2,13 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kartollika.matrixcalc">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
-        android:theme="@style/ActivityTheme.Primary.Base.Light">
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9193176037122415~9633966613" />
+
         <activity
             android:name=".activities.SplashScreenActivity"
             android:theme="@style/SplashScreenActivityThemeLight">
@@ -18,8 +27,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".activities.MainHubActivity"
+            android:theme="@style/MainHubActivityThemeLight" />
+
+        <activity
+            android:name=".activities.PreferenceActivity"
             android:label="Settings"
             android:theme="@style/SettingsActivityThemeLight">
             <meta-data
@@ -28,9 +42,18 @@
         </activity>
 
         <activity
-            android:name=".activities.MainHubActivity"
-            android:theme="@style/MainHubActivityThemeLight" />
-        <activity android:name=".activities.ShowResultActivity" />
+            android:name=".activities.InputMatrixActivity"
+            android:theme="@style/InputMatrixActivityThemeLight"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
+        <activity
+            android:name=".activities.ShowResultActivity"
+            android:theme="@style/ShowResultActivityThemeLight" />
+
+        <activity
+            android:name=".activities.ChooseOperationActivity"
+            android:theme="@style/ChooseOperationActivityDialogLight" />
+
 
         <service android:name=".utilities.UpdateCheckerService" />
     </application>

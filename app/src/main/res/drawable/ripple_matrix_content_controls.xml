@@ -1,10 +1,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:state_pressed="true">
-        <color android:color="?attr/colorActionButtonRipple" />
+        <color android:color="?attr/colorControlMatrixContentButtonRipple" />
     </item>
 
     <item android:state_pressed="false">
-        <color android:color="?attr/colorSaveButton" />
+        <color android:color="?attr/colorControlMatrixContentButton" />
     </item>
 </selector>

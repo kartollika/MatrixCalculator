@@ -1,9 +1,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="false">
-        <color android:color="@color/colorHideSettings"/>
+        <color android:color="?attr/colorHideMatrixSettingsRipple"/>
     </item>
 
     <item android:state_pressed="true">
-        <color android:color="@color/colorHideSettingsRipple"/>
+        <color android:color="?attr/colorHideMatrixSettings"/>
     </item>
 </selector>

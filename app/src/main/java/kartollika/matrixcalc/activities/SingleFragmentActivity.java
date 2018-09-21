@@ -1,5 +1,6 @@
 package kartollika.matrixcalc.activities;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.MainHubActivityThemeDark);
         }
+
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        if (!isTablet) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(getLayoutView());
 

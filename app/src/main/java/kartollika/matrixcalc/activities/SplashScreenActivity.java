@@ -1,12 +1,14 @@
 package kartollika.matrixcalc.activities;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Window;
 
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.fragments.SplashScreenFragment;
+import kartollika.matrixcalc.utilities.UpdateCheckerService;
 
 public class SplashScreenActivity extends SingleFragmentActivity {
 
@@ -28,5 +30,10 @@ public class SplashScreenActivity extends SingleFragmentActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
+
+        if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                .getBoolean(PreferenceActivity.KEY_AUTOUPDATE, true)) {
+            startService(UpdateCheckerService.getUpdateCheckerService(getApplicationContext()));
+        }
     }
 }

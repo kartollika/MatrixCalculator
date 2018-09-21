@@ -29,6 +29,13 @@ public class SplashScreenFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadMainActivity();
+            }
+        }, SPLASH_SCREEN_TIMEOUT);
     }
 
     @Nullable
@@ -38,19 +45,8 @@ public class SplashScreenFragment extends Fragment {
         return v;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadMainActivity();
-            }
-        }, SPLASH_SCREEN_TIMEOUT);
-    }
-
     private void loadMainActivity() {
-        Intent i = new Intent(getContext(), MainHubActivity.class);
+        Intent i = new Intent(getActivity().getApplicationContext(), MainHubActivity.class);
         startActivity(i);
         getActivity().finish();
     }

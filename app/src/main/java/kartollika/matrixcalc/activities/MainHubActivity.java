@@ -2,7 +2,6 @@ package kartollika.matrixcalc.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,14 +13,23 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdView;
+
 import kartollika.matrixcalc.App;
+import kartollika.matrixcalc.IOperationChoose;
 import kartollika.matrixcalc.R;
+import kartollika.matrixcalc.SolveCallback;
 import kartollika.matrixcalc.fragments.DefaultOperationsHubFragment;
 import kartollika.matrixcalc.fragments.LinearSystemHubFragment;
+import kartollika.matrixcalc.utilities.AdUtils;
 
-public class MainHubActivity extends SingleFragmentActivity {
+import static kartollika.matrixcalc.utilities.AdUtils.rewardedVideoAd;
 
+public class MainHubActivity extends SingleFragmentActivity implements SolveCallback, IOperationChoose {
+
+    private AdView adView;
     private BottomNavigationView bottomNavigationView;
+    private int isNightmodeOn = AppCompatDelegate.MODE_NIGHT_NO;
 
     @Override
     protected Fragment createFragment() {
@@ -37,9 +45,12 @@ public class MainHubActivity extends SingleFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.MainHubActivityThemeDark);
+            isNightmodeOn = AppCompatDelegate.MODE_NIGHT_YES;
         }
 
         super.onCreate(savedInstanceState);
+
+        adView = findViewById(R.id.adView);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -101,18 +112,56 @@ public class MainHubActivity extends SingleFragmentActivity {
             }
 
             case R.id.menu_item_rate_in_gp: {
+                App.openGooglePlay(this);
                 break;
             }
 
             case R.id.menu_item_block_ads: {
-
             }
         }
         return true;
     }
 
     private void openSettings(Context context) {
-        Intent i = new Intent(context, SettingsActivity.class);
+        Intent i = new Intent(context, PreferenceActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("isNightmodeOn", isNightmodeOn);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AdUtils.destroyBanner(adView);
+        //rewardedVideoAd.destroy(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //rewardedVideoAd.resume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //rewardedVideoAd.pause(this);
+    }
+
+    /**
+     * OnSolve method of SolveCallback interface
+     */
+    @Override
+    public void onSolve() {
+
+    }
+
+    @Override
+    public void onOperationChoosed() {
+
     }
 }

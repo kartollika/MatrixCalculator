@@ -7,8 +7,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+
+import com.google.android.gms.ads.AdView;
+
+import kartollika.matrixcalc.R;
 
 public class ShowResultFragment extends Fragment {
+
+    private Button buttonActivateSteps;
+    private Button buttonPreviousStep;
+    private Button buttonNexrStep;
+    private ProgressBar progressBarSteps;
 
     public static ShowResultFragment newInstance() {
 
@@ -22,7 +33,7 @@ public class ShowResultFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(0, container);
+        View v = inflater.inflate(R.layout.fragment_show_result, container, false);
         return v;
     }
 }

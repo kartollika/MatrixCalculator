@@ -36,14 +36,26 @@ public class TableMatrixLayout extends LinearLayoutCompat {
     }
 
     public void setTable(Matrix matrix) {
+        reset();
+
         curRows = matrix.getRows();
         while (curColumns < matrix.getColumns()) {
-            addColumn();
+            Matrix.RowIterator iterator = matrix.getRowIterator();
+            iterator.skipTo(curColumns);
+            addColumn(iterator);
         }
         tableChangeListener.onTableChange();
     }
 
+    private void reset() {
+        removeAllViews();
+        curRows = 0;
+        curColumns = 0;
+    }
+
     public void setTable(DoubleMatrix doubleMatrix) {
+        reset();
+
         setTable(doubleMatrix.getMatrix1());
         addAugmentedMatrix(doubleMatrix.getMatrix2());
         tableChangeListener.onTableChange();
@@ -68,6 +80,8 @@ public class TableMatrixLayout extends LinearLayoutCompat {
     }
 
     public void setTable(AugmentedMatrix augmentedMatrix) {
+        reset();
+
         setTable((Matrix) augmentedMatrix);
         addAugmentedColumn(augmentedMatrix);
         isAugmented = true;
@@ -123,6 +137,10 @@ public class TableMatrixLayout extends LinearLayoutCompat {
     }
 
     public void addColumn() {
+        addColumn(null);
+    }
+
+    public void addColumn(Matrix.RowIterator iterator) {
         LinearLayout newColumn = newLinearLayoutInstance();
         for (int i = 0; i < curRows; ++i) {
             final int curRow = i;
@@ -132,6 +150,14 @@ public class TableMatrixLayout extends LinearLayoutCompat {
                     return getMainDrawable(curColumns, curRow);
                 }
             });
+            EditTextMatrixCell cell = editTextMatrixCell.findViewById(R.id.cell);
+
+            if (iterator != null) {
+                if (iterator.hasNext()) {
+                    cell.setText(String.valueOf(iterator.next()));
+                }
+            }
+
             newColumn.addView(editTextMatrixCell);
         }
         if (isAugmented) {

@@ -1,8 +1,10 @@
 package kartollika.matrixcalc.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,9 +14,12 @@ import android.widget.NumberPicker;
 
 import kartollika.matrixcalc.R;
 
+
 public class DimensionPickerDialog extends DialogFragment {
 
-    private static final String KEY_CUR_DIMENSION = "cur_dimension";
+    public static final String KEY_CUR_DIMENSION = "cur_dimension";
+    public static final String NEW_DIMENSION_VALUE = "new_dimension_value";
+
     private int curDimension;
 
     public static DimensionPickerDialog newInstance(int curDimension) {
@@ -36,21 +41,36 @@ public class DimensionPickerDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_dimension_picker, null);
-        NumberPicker numberPicker = v.findViewById(R.id.numberPicker);
+        final NumberPicker numberPicker = v.findViewById(R.id.numberPicker);
 
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(12);
         numberPicker.setValue(curDimension);
         numberPicker.setWrapSelectorWheel(false);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                getArguments().putInt(KEY_CUR_DIMENSION, newVal);
+            }
+        });
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setTitle("Test")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.setup_dims)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        sendResult(numberPicker.getValue());
                         dialog.dismiss();
                     }
                 }).create();
+    }
+
+    private void sendResult(int dimensionChosen) {
+        if (getTargetFragment() == null) return;
+
+        Intent i = new Intent();
+        i.putExtra(NEW_DIMENSION_VALUE, dimensionChosen);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
     }
 }

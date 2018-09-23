@@ -9,18 +9,26 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
-import kartollika.matrixcalc.KeyboardKeyListener;
+import kartollika.matrixcalc.MatrixManager;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.utilities.AnimationUtil;
+import kartollika.matrixcalc.utilities.KeyboardKeyListener;
+import kartollika.matrixcalc.utilities.TableMatrixLayout;
+import kartollika.matrixmodules.matrix.Matrix;
+
+import static kartollika.matrixcalc.fragments.DimensionPickerDialog.NEW_DIMENSION_VALUE;
 
 public class InputMatrixFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
-    public static final String NEW_DIMENSION_VALUE = "new_dimension_value";
+    public static final String TAG = "InputMatrixFragment";
+
     private static final int TARGET_SET_ROWS = 0;
     private static final int TARGET_SET_COLUMNS = 1;
     private static final String REQUEST_SETTER_DIALOG = "set_dimension";
@@ -34,12 +42,15 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     private Button buttonHideSettings;
     private Button buttonSetE;
     private Button buttonSet0;
+    private TextView textViewCurrentRows;
     private Button buttonIncRows;
     private Button buttonSetRows;
     private Button buttonDecRows;
+    private TextView textViewCurrentColumns;
     private Button buttonIncColumns;
     private Button buttonSetColumns;
     private Button buttonDecColumns;
+    private TableMatrixLayout table;
 
     private boolean isUpperCardFullyHidden;
     private boolean isUpperCardHidden;
@@ -66,10 +77,12 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         buttonSetE = v.findViewById(R.id.buttonSetE);
         buttonSet0 = v.findViewById(R.id.buttonSet0);
 
+        textViewCurrentRows = v.findViewById(R.id.textViewCurrentRows);
         buttonIncRows = v.findViewById(R.id.row_plus);
         buttonSetRows = v.findViewById(R.id.rowCount);
         buttonDecRows = v.findViewById(R.id.row_minus);
 
+        textViewCurrentColumns = v.findViewById(R.id.textViewCurrentColumns);
         buttonIncColumns = v.findViewById(R.id.column_plus);
         buttonSetColumns = v.findViewById(R.id.columnCount);
         buttonDecColumns = v.findViewById(R.id.column_minus);
@@ -78,8 +91,8 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         fullCard = v.findViewById(R.id.fullCardGroup);
         notFullCard = v.findViewById(R.id.notFullCardGroup);
 
+        table = v.findViewById(R.id.table);
         bindButtons();
-
         return v;
     }
 
@@ -97,7 +110,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
             public void onClick(View v) {
                 DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(1);
                 dimensionPickerDialog.setTargetFragment(InputMatrixFragment.this, TARGET_SET_ROWS);
-                dimensionPickerDialog.show(getChildFragmentManager(), REQUEST_SETTER_DIALOG);
+                dimensionPickerDialog.show(requireFragmentManager(), REQUEST_SETTER_DIALOG);
             }
         });
         buttonIncRows.setOnClickListener(this);
@@ -108,10 +121,27 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
             public void onClick(View v) {
                 DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(1);
                 dimensionPickerDialog.setTargetFragment(InputMatrixFragment.this, TARGET_SET_COLUMNS);
-                dimensionPickerDialog.show(getChildFragmentManager(), REQUEST_SETTER_DIALOG);
+                dimensionPickerDialog.show(requireFragmentManager(), REQUEST_SETTER_DIALOG);
             }
         });
         buttonIncColumns.setOnClickListener(this);
+
+        buttonSave.setOnClickListener(this);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Matrix matrix = new Matrix(3, 3);
+        table.setTableChangeListener(new TableMatrixLayout.TableChangeListener() {
+            @Override
+            public void onTableChange() {
+                textViewCurrentRows.setText(getString(R.string.count_of_rows, table.getCurRows()));
+                textViewCurrentColumns.setText(getString(R.string.count_of_columns, table.getCurColumns()));
+            }
+        });
+
+        table.setTable(matrix);
     }
 
     /**
@@ -126,6 +156,34 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.buttonSetE: {
+
+            }
+
+            case R.id.buttonSet0: {
+
+            }
+
+            case R.id.row_minus: {
+                table.deleteRow();
+                break;
+            }
+
+            case R.id.row_plus: {
+                table.addRow();
+                break;
+            }
+
+            case R.id.column_minus: {
+                table.deleteColumn();
+                break;
+            }
+
+            case R.id.column_plus: {
+                table.addColumn();
+                break;
+            }
+
             case R.id.hideCard: {
                 if (isUpperCardFullyHidden) {
                     isUpperCardFullyHidden = AnimationUtil.switchFullCardVisibility(root, fullCard);
@@ -149,8 +207,8 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
                 break;
             }
 
-            case R.id.rowCount: {
-
+            case R.id.saveButton: {
+                MatrixManager matrixManager;
             }
         }
     }
@@ -179,6 +237,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         switch (requestCode) {
             case TARGET_SET_ROWS: {
                 curRows = data.getIntExtra(NEW_DIMENSION_VALUE, 3);
+                Log.i(TAG, String.valueOf(curRows));
                 updateTable();
                 break;
             }
@@ -188,6 +247,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
                 updateTable();
             }
         }
+
     }
 
     private void updateTable() {

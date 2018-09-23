@@ -13,7 +13,7 @@ public class UpdateCheckerBroadcastReceiver extends BroadcastReceiver {
             = "kartollika.matrixcalc.UPDATE_CHECK_FINISHED";
     public static final String ACTION_UPDATE_CHECK_CONNECTION_ERROR =
             "kartollika.matrixcalc.UPDATE_CHECK_CONNECTION_ERROR";
-
+    private boolean fromSettings = false;
     private UpdateNotifier notifier;
 
     public UpdateCheckerBroadcastReceiver(Context context) {
@@ -22,6 +22,7 @@ public class UpdateCheckerBroadcastReceiver extends BroadcastReceiver {
 
     public void setActivity(Activity activity) {
         notifier = new UpdateNotifier(activity);
+        fromSettings = true;
     }
 
     @Override
@@ -30,11 +31,11 @@ public class UpdateCheckerBroadcastReceiver extends BroadcastReceiver {
 
         switch (intent.getAction()) {
             case ACTION_UPDATE_CHECK_FINISHED: {
-
                 String newVersionName = intent.getStringExtra("new_version");
-                newVersionName = "";
                 if (newVersionName == null) {
-                    notifier.sendNotification(intent.getAction(), context.getString(R.string.noUpdateAvailable), false);
+                    if (fromSettings) {
+                        notifier.sendNotification(intent.getAction(), context.getString(R.string.checkerservice_no_update_available), false);
+                    }
                 } else {
                     notifier.sendNotification(intent.getAction(), "Update " + newVersionName + " available", true);
                 }
@@ -42,7 +43,7 @@ public class UpdateCheckerBroadcastReceiver extends BroadcastReceiver {
             }
 
             case ACTION_UPDATE_CHECK_CONNECTION_ERROR: {
-                notifier.sendNotification(intent.getAction(), context.getString(R.string.conn_error), false);
+                notifier.sendNotification(intent.getAction(), context.getString(R.string.checkerservice_connection_error), false);
             }
         }
 

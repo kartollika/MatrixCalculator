@@ -114,7 +114,7 @@ public class UpdateNotifier {
 
         notificationBuilder.setSmallIcon(R.mipmap.icon);
         notificationBuilder.setAutoCancel(true);
-        notificationBuilder.setContentTitle(context.getString(R.string.update_available));
+        notificationBuilder.setContentTitle(context.getString(R.string.checkerservice_update_available));
         notificationBuilder.setOngoing(false);
         notificationBuilder.setContentText(message);
         notificationBuilder.setContentIntent(pIntent);

@@ -78,7 +78,7 @@
 
 
                 <TextView
-                    android:id="@+id/rows"
+                    android:id="@+id/textViewCurrentRows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -88,8 +88,8 @@
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                     android:textColor="?attr/colorTextDimensionsInfo"
                     app:layout_constraintBottom_toBottomOf="@+id/row_minus"
-                    app:layout_constraintEnd_toEndOf="@+id/columns"
-                    app:layout_constraintStart_toStartOf="@+id/columns"
+                    app:layout_constraintEnd_toEndOf="@+id/textViewCurrentColumns"
+                    app:layout_constraintStart_toStartOf="@+id/textViewCurrentColumns"
                     app:layout_constraintTop_toTopOf="@+id/row_minus"
                     tools:text="Строк:" />
 
@@ -139,7 +139,7 @@
 
 
                 <TextView
-                    android:id="@+id/columns"
+                    android:id="@+id/textViewCurrentColumns"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -205,7 +205,7 @@
                     android:id="@+id/notFullCardGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="rowCount,row_plus,row_minus,columns,column_minus,rows,columnCount,column_plus" />
+                    app:constraint_referenced_ids="column_minus,row_plus,row_minus,column_plus,textViewCurrentRows,textViewCurrentColumns,rowCount,columnCount" />
 
 
             </android.support.constraint.ConstraintLayout>

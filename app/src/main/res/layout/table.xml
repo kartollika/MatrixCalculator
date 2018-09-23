@@ -23,14 +23,15 @@
             android:scrollbarSize="3dp"
             android:scrollbarStyle="insideOverlay">
 
-            <LinearLayout
+            <kartollika.matrixcalc.utilities.TableMatrixLayout
                 android:id="@+id/table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-            </LinearLayout>
+
+            </kartollika.matrixcalc.utilities.TableMatrixLayout>
         </ScrollView>
 
     </HorizontalScrollView>

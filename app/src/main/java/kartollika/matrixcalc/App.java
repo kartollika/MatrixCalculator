@@ -34,10 +34,10 @@ public class App extends Application {
     public static String CUR_REWARD;
     private static long estimatedTimeRemovingBanners;
     private static long estimatedTimeRemovingInterstitial;
-    //private MatrixManager matrixManager;
     private static UpdateCheckerBroadcastReceiver updateCheckerBroadcastReceiver;
     public boolean thisSession = false;
     private SharedPreferences preferences;
+    private MatrixManager matrixManager;
 
     public static void setEstimatedTimeBanners(long time) {
         estimatedTimeRemovingBanners = time;
@@ -109,20 +109,21 @@ public class App extends Application {
         context.registerReceiver(updateCheckerBroadcastReceiver, intentFilter);
     }
 
+    public static UpdateCheckerBroadcastReceiver getUpdateCheckerBroadcastReceiver() {
+        return updateCheckerBroadcastReceiver;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        /*AppCompatDelegate.setDefaultNightMode(preferences.getBoolean("isDarkmode", false)
-                ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);*/
-
         if (BuildConfig.BUILD_TYPE.equals("debug")) {
             version = BuildConfig.VERSION_NAME + "_" + BuildConfig.BUILD_TYPE;
         } else {
             version = BuildConfig.VERSION_NAME;
         }
-
-        initUpdaterBroadcastReceiver(getApplicationContext());
+        matrixManager = MatrixManager.getInstance(this);
+        initUpdaterBroadcastReceiver(this);
         //initAds();
     }
 
@@ -139,9 +140,5 @@ public class App extends Application {
         InterstitialShow.CUR_OPERATIONS = preferences.getInt("interstitialCurOperations", 1);
         setEstimatedTimeBanners(preferences.getLong("bannersEstimatedTime", System.currentTimeMillis()));
         setEstimatedTimeInterstitial(preferences.getLong("interstitialEstimatedTime", System.currentTimeMillis()));
-    }
-
-    public static UpdateCheckerBroadcastReceiver getUpdateCheckerBroadcastReceiver() {
-        return updateCheckerBroadcastReceiver;
     }
 }

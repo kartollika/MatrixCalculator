@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -73,6 +72,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
 
     private int curRows = 0;
     private int curColumns = 0;
+    private Matrix matrix;
 
     public static InputMatrixFragment newInstance(int type) {
 
@@ -157,7 +157,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         buttonSetRows.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(1);
+                DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(curRows);
                 dimensionPickerDialog.setTargetFragment(InputMatrixFragment.this, TARGET_SET_ROWS);
                 dimensionPickerDialog.show(requireFragmentManager(), REQUEST_SETTER_DIALOG);
             }
@@ -168,7 +168,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         buttonSetColumns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(1);
+                DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(curColumns);
                 dimensionPickerDialog.setTargetFragment(InputMatrixFragment.this, TARGET_SET_COLUMNS);
                 dimensionPickerDialog.show(requireFragmentManager(), REQUEST_SETTER_DIALOG);
             }
@@ -185,7 +185,6 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         MatrixManager matrixManager = MatrixManager.getInstance(requireContext());
-        Matrix matrix;
         table.setTableChangeListener(new TableMatrixLayout.TableChangeListener() {
             @Override
             public void onTableChange() {
@@ -422,22 +421,39 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
 
         switch (requestCode) {
             case TARGET_SET_ROWS: {
-                curRows = data.getIntExtra(NEW_DIMENSION_VALUE, 3);
-                Log.i(TAG, String.valueOf(curRows));
-                updateTable();
+                int newRows = data.getIntExtra(NEW_DIMENSION_VALUE, 3);
+                updateTable(newRows, curColumns);
                 break;
             }
 
             case TARGET_SET_COLUMNS: {
-                curColumns = data.getIntExtra(NEW_DIMENSION_VALUE, 3);
-                updateTable();
+                int newCurColumns = data.getIntExtra(NEW_DIMENSION_VALUE, 3);
+                updateTable(curRows, newCurColumns);
             }
         }
 
     }
 
-    private void updateTable() {
+    private void updateTable(int newRows, int newColumns) {
+        if (newRows > curRows) {
+            while (curRows < newRows) {
+                table.addRow();
+            }
+        } else if (newRows < curRows) {
+            while (curRows > newRows) {
+                table.deleteRow();
+            }
+        }
 
+        if (newColumns > curColumns) {
+            while (curColumns < newColumns) {
+                table.addColumn();
+            }
+        } else if (newColumns < curColumns) {
+            while (curColumns > newColumns) {
+                table.deleteColumn();
+            }
+        }
     }
 
     @Override

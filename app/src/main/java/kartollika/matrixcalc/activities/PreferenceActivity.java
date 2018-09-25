@@ -1,10 +1,8 @@
 package kartollika.matrixcalc.activities;
 
-import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -23,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 
 import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.BuildConfig;
@@ -30,6 +29,7 @@ import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.utilities.UpdateCheckerService;
 
 public class PreferenceActivity extends android.preference.PreferenceActivity {
+    public static final String TAG = "PreferenceActivity";
 
     public static final String KEY_DEFAULT_ROWS = "default_rows";
     public static final String KEY_DEFAULT_COLUMNS = "default_columns";
@@ -41,7 +41,8 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
     public static final String KEY_SEND_REPORT = "send_report";
     public static final String KEY_OPEN_GOOGLE_PLAY = "open_playmarket";
 
-    private static final String TAG = "PreferenceActivity";
+    private static final String REQUEST_SET_DEFAULT_ROWS = "set_default_rows";
+    private static final String REQUEST_SET_DEFAULT_COLUMNS = "set_default_columns";
     private SharedPreferences sharedPreferences;
 
     private Preference defaultRowsPreference;
@@ -93,14 +94,66 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
         defaultRowsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                return false;
+                int defaultRows = sharedPreferences.getInt(KEY_DEFAULT_ROWS, 3);
+                View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_dimension_picker, null);
+                final NumberPicker numberPicker = v.findViewById(R.id.numberPicker);
+                numberPicker.setMinValue(1);
+                numberPicker.setMaxValue(12);
+                numberPicker.setValue(defaultRows);
+                numberPicker.setWrapSelectorWheel(false);
+                new AlertDialog.Builder(PreferenceActivity.this)
+                        .setTitle(R.string.settings_default_rows_title)
+                        .setView(v)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPreferences
+                                        .edit()
+                                        .putInt(KEY_DEFAULT_ROWS, numberPicker.getValue())
+                                        .apply();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+                return true;
             }
         });
 
         defaultColumnsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                return false;
+                int defaultRows = sharedPreferences.getInt(KEY_DEFAULT_COLUMNS, 3);
+                View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_dimension_picker, null);
+                final NumberPicker numberPicker = v.findViewById(R.id.numberPicker);
+                numberPicker.setMinValue(1);
+                numberPicker.setMaxValue(12);
+                numberPicker.setValue(defaultRows);
+                numberPicker.setWrapSelectorWheel(false);
+                new AlertDialog.Builder(PreferenceActivity.this)
+                        .setTitle(R.string.settings_default_rows_title)
+                        .setView(v)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPreferences
+                                        .edit()
+                                        .putInt(KEY_DEFAULT_COLUMNS, numberPicker.getValue())
+                                        .apply();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+                return true;
             }
         });
 
@@ -230,5 +283,4 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
             }
         });
     }
-
 }

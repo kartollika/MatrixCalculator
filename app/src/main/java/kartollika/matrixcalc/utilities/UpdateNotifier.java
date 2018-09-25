@@ -79,7 +79,7 @@ public class UpdateNotifier {
                 }
             } else {
                 try {
-                    snackbar = Snackbar.make(activity.findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT);
+                    snackbar = Snackbar.make(activity.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);
                     snackbar.setAction("Good!", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

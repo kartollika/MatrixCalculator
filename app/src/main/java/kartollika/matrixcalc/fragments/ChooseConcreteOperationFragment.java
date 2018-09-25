@@ -1,5 +1,6 @@
 package kartollika.matrixcalc.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import kartollika.matrixcalc.R;
+import kartollika.matrixmodules.operations.Operation;
 
 public abstract class ChooseConcreteOperationFragment extends Fragment {
 
@@ -26,7 +28,7 @@ public abstract class ChooseConcreteOperationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.choose_operation_fragment, container, false);
 
-        int operation = getActivity().getIntent().getIntExtra("operation_chosen", -1);
+        Operation operation = (Operation) getActivity().getIntent().getSerializableExtra("operation_chosen");
         final String[] strings = getAvailableOperationsForFragment();
 
         for (int i = 0; i < 2; ++i) {
@@ -38,21 +40,22 @@ public abstract class ChooseConcreteOperationFragment extends Fragment {
             }
             for (int j = 0; j < 4; ++j) {
                 Button button = (Button) inflater.inflate(R.layout.item_choose_oper, container, false);
-                int id = calcId(i, j);
+                final int id = calcId(i, j);
+                int intOperation = operation.compareTo(Operation.ADDITION);
 
                 button.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("ResourceType")
                     @Override
                     public void onClick(View v) {
-                        Button btn = (Button) v;
                         Intent intent = new Intent();
-                        intent.putExtra("operation_chosen", v.getId());
+                        intent.putExtra("operation_chosen", Operation.values()[v.getId() + 1]);
                         String s = strings[v.getId() - offset()];
                         intent.putExtra("operation_text", s);
                         getActivity().setResult(Activity.RESULT_OK, intent);
                         getActivity().finish();
                     }
                 });
-                if (id == operation) {
+                if (id == intOperation) {
                     button.setBackgroundColor(getResources().getColor(R.color.colorOperationChoosed));
                 }
                 button.setId(id);
@@ -61,7 +64,6 @@ public abstract class ChooseConcreteOperationFragment extends Fragment {
                 linearLayout.addView(button);
             }
         }
-
         return view;
     }
 

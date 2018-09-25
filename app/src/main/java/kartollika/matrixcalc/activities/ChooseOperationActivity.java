@@ -9,11 +9,14 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.Button;
 
-import kartollika.matrixcalc.fragments.Binaries;
 import kartollika.matrixcalc.R;
+import kartollika.matrixcalc.fragments.Binaries;
 import kartollika.matrixcalc.fragments.Unaries;
+import kartollika.matrixmodules.operations.Operation;
 
 public class ChooseOperationActivity extends AppCompatActivity {
+
+    public static final String TAG = "ChooseOperationActivity";
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -29,11 +32,12 @@ public class ChooseOperationActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        int oper = getIntent().getIntExtra("operation_chosen", -1);
-        if (oper < 8) {
+        Operation oper = (Operation) getIntent().getSerializableExtra("operation_chosen");
+
+        if (oper.compareTo(Operation.INVERSE) < 0) {
             fragmentTransaction.replace(R.id.container, new Binaries()).commit();
             switchTab(0);
-        } else if (oper > 7) {
+        } else if (oper.compareTo(Operation.INVERSE) >= 0) {
             fragmentTransaction.replace(R.id.container, new Unaries()).commit();
             switchTab(1);
         }

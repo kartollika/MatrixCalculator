@@ -8,12 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import kartollika.matrixcalc.R;
-import kartollika.matrixcalc.fragments.ChooseConcreteOperationFragment;
 
 public class Binaries extends ChooseConcreteOperationFragment {
 
     public Binaries() {
         super();
+    }
+
+    public static Binaries newInstance() {
+
+        Bundle args = new Bundle();
+
+        Binaries fragment = new Binaries();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -28,7 +36,7 @@ public class Binaries extends ChooseConcreteOperationFragment {
 
     @Override
     protected String[] getAvailableOperationsForFragment() {
-        return getActivity().getResources().getStringArray(R.array.binaryOperations);
+        return requireContext().getResources().getStringArray(R.array.binaryOperations);
     }
 
     @Nullable

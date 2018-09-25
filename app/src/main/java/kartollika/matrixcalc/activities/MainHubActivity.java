@@ -16,24 +16,24 @@ import android.view.MenuItem;
 import com.google.android.gms.ads.AdView;
 
 import kartollika.matrixcalc.App;
-import kartollika.matrixcalc.IOperationChoose;
+import kartollika.matrixcalc.IOperationSave;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.SolveCallback;
 import kartollika.matrixcalc.fragments.DefaultOperationsHubFragment;
 import kartollika.matrixcalc.fragments.LinearSystemHubFragment;
 import kartollika.matrixcalc.utilities.AdUtils;
+import kartollika.matrixmodules.operations.Operation;
 
-import static kartollika.matrixcalc.utilities.AdUtils.rewardedVideoAd;
-
-public class MainHubActivity extends SingleFragmentActivity implements SolveCallback, IOperationChoose {
+public class MainHubActivity extends SingleFragmentActivity implements SolveCallback, IOperationSave {
 
     private AdView adView;
     private BottomNavigationView bottomNavigationView;
     private int isNightmodeOn = AppCompatDelegate.MODE_NIGHT_NO;
+    private Operation operation = Operation.NONE;
 
     @Override
     protected Fragment createFragment() {
-        return DefaultOperationsHubFragment.newInstance();
+        return DefaultOperationsHubFragment.newInstance(operation);
     }
 
     @Override
@@ -46,6 +46,10 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.MainHubActivityThemeDark);
             isNightmodeOn = AppCompatDelegate.MODE_NIGHT_YES;
+        }
+
+        if (savedInstanceState != null) {
+            operation = (Operation) savedInstanceState.getSerializable(DefaultOperationsHubFragment.KEY_OPERATION_CHOSEN);
         }
 
         super.onCreate(savedInstanceState);
@@ -66,7 +70,7 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
                             break;
                         }
                         fm.beginTransaction()
-                                .replace(R.id.fragment_container, DefaultOperationsHubFragment.newInstance())
+                                .replace(R.id.fragment_container, DefaultOperationsHubFragment.newInstance(operation))
                                 .commit();
                         break;
                     }
@@ -130,7 +134,7 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("isNightmodeOn", isNightmodeOn);
+        outState.putSerializable(DefaultOperationsHubFragment.KEY_OPERATION_CHOSEN, operation);
     }
 
     @Override
@@ -161,7 +165,7 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
     }
 
     @Override
-    public void onOperationChoosed() {
-
+    public void saveOperation(Operation operation) {
+        this.operation = operation;
     }
 }

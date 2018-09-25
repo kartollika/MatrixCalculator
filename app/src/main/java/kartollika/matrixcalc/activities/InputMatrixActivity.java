@@ -10,9 +10,13 @@ import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.fragments.InputMatrixFragment;
 
 public class InputMatrixActivity extends SingleFragmentActivity {
+
+    public static final String KEY_MATRIX_TYPE = "matrix_type";
+    public static final String KEY_HIDE_CARD_NOTIFICATION = "hide_card_notification";
+
     @Override
     protected Fragment createFragment() {
-        return InputMatrixFragment.newInstance();
+        return InputMatrixFragment.newInstance(getIntent().getIntExtra(KEY_MATRIX_TYPE, -1));
     }
 
     @Override

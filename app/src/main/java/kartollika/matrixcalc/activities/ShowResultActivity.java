@@ -1,25 +1,28 @@
 package kartollika.matrixcalc.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDelegate;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import com.google.android.gms.ads.AdView;
 
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.fragments.ShowResultFragment;
-import kartollika.matrixcalc.utilities.AdUtils;
+import kartollika.matrixmodules.operations.Operation;
 
 public class ShowResultActivity extends SingleFragmentActivity {
+
+    public static final String KEY_OPERATION_TO_SOLVE = "operation_to_solve";
+    public static final String KEY_COEFFICIENT = "input_coefficient";
 
     private AdView adView;
 
     @Override
     protected Fragment createFragment() {
-        return ShowResultFragment.newInstance();
+        Operation operation = (Operation) getIntent().getSerializableExtra(KEY_OPERATION_TO_SOLVE);
+        return ShowResultFragment.newInstance(operation);
     }
 
     @Override
@@ -38,14 +41,14 @@ public class ShowResultActivity extends SingleFragmentActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         //AdUtils.destroyBanner(adView);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(Activity.RESULT_OK);
     }
 }

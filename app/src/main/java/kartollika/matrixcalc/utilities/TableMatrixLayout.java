@@ -2,25 +2,80 @@ package kartollika.matrixcalc.utilities;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import java.security.InvalidParameterException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.List;
+
+import kartollika.matrixcalc.ITextOutputFormat;
 import kartollika.matrixcalc.R;
+import kartollika.matrixmodules.RationalNumber;
 import kartollika.matrixmodules.matrix.AugmentedMatrix;
 import kartollika.matrixmodules.matrix.DoubleMatrix;
 import kartollika.matrixmodules.matrix.Matrix;
 
 public class TableMatrixLayout extends LinearLayoutCompat {
+    public static final String TAG = "TableMatrixLayout";
 
+    public static final int READ_ONLY = 0;
+    public static final int READ_WRITE = 1;
+
+    public static final ITextOutputFormat DOUBLES_FORMATTER = new ITextOutputFormat() {
+        @Override
+        public String numberToString(Number number) {
+            try {
+                return String.valueOf(RationalNumber.parseRational(number).doubleValue());
+            } catch (Exception e) {
+                return String.valueOf(number);
+            }
+        }
+    };
+    public static final ITextOutputFormat RATIONALES_FORMATTER = new ITextOutputFormat() {
+        @Override
+        public String numberToString(Number number) {
+            try {
+                return RationalNumber.parseRational(number).toString();
+            } catch (Exception e) {
+                return String.valueOf(number);
+            }
+        }
+    };
+    private static final ITextOutputFormat defaultFormatter = new ITextOutputFormat() {
+        @Override
+        public String numberToString(Number number) {
+            String stringValue = String.valueOf(number);
+            if (stringValue.contains("E")) {
+                stringValue = convertScientificToPlane(stringValue);
+            }
+            return stringValue;
+        }
+    };
+    private ITextOutputFormat formatter = defaultFormatter;
+    private int accessType = 1;
     private int curRows = 0;
     private int curColumns = 0;
     private boolean isAugmented = false;
-    private TableChangeListener tableChangeListener;
+    private List<Pair<EditTextMatrixCell, Number>> cells = new ArrayList<>();
+    private TableChangeListener tableChangeListener = new TableChangeListener() {
+        @Override
+        public void onTableChange() {
+            //EMPTY
+        }
+    };
 
     public TableMatrixLayout(Context context) {
         super(context);
@@ -35,6 +90,45 @@ public class TableMatrixLayout extends LinearLayoutCompat {
         super(context, attrs, defStyleAttr);
     }
 
+    private static String convertScientificToPlane(String raw) {
+        Double formatted = Double.parseDouble(raw);
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#", decimalFormatSymbols);
+        decimalFormat.setMaximumFractionDigits(8);
+        return decimalFormat.format(formatted);
+    }
+
+    /**
+     *
+     */
+    public void changeAccessType(int accessType) {
+        this.accessType = accessType;
+    }
+
+    public void initTable(Matrix matrix) {
+        if (matrix instanceof AugmentedMatrix) {
+            setTable((AugmentedMatrix) matrix);
+            return;
+        }
+
+        if (matrix instanceof DoubleMatrix) {
+            setTable((DoubleMatrix) matrix);
+            return;
+        }
+
+        if (matrix != null) {
+            setTable(matrix);
+            return;
+        }
+
+        throw new InvalidParameterException("matrix parameter is not a Matrix or its subclass");
+    }
+
+    public void setFormatter(ITextOutputFormat formatter) {
+        this.formatter = formatter;
+    }
+
     public void setTable(Matrix matrix) {
         reset();
 
@@ -43,38 +137,6 @@ public class TableMatrixLayout extends LinearLayoutCompat {
             Matrix.RowIterator iterator = matrix.getRowIterator();
             iterator.skipTo(curColumns);
             addColumn(iterator);
-        }
-        tableChangeListener.onTableChange();
-    }
-
-    private void reset() {
-        removeAllViews();
-        curRows = 0;
-        curColumns = 0;
-    }
-
-    public void setTable(DoubleMatrix doubleMatrix) {
-        reset();
-
-        setTable(doubleMatrix.getMatrix1());
-        addAugmentedMatrix(doubleMatrix.getMatrix2());
-        tableChangeListener.onTableChange();
-    }
-
-    public void addAugmentedMatrix(Matrix secondMatrix) {
-        for (int i = 0; i < secondMatrix.getColumns(); ++i) {
-            LinearLayout llAug = newLinearLayoutInstance();
-
-            for (int j = 0; j < secondMatrix.getColumns(); ++j) {
-                FrameLayout editTextMatrixCell = newEditTextMatrixCellInstance(new DrawableSupplier() {
-                    @Override
-                    public Integer get() {
-                        return R.drawable.back_extens;
-                    }
-                });
-                llAug.addView(editTextMatrixCell);
-            }
-            addView(llAug);
         }
         tableChangeListener.onTableChange();
     }
@@ -88,6 +150,40 @@ public class TableMatrixLayout extends LinearLayoutCompat {
         tableChangeListener.onTableChange();
     }
 
+
+    public void setTable(DoubleMatrix doubleMatrix) {
+        reset();
+
+        setTable(doubleMatrix.getMatrix1());
+        addAugmentedMatrix(doubleMatrix.getMatrix2());
+        tableChangeListener.onTableChange();
+    }
+
+    private void reset() {
+        cells.clear();
+        removeAllViews();
+        curRows = 0;
+        curColumns = 0;
+    }
+
+    public void addAugmentedMatrix(Matrix secondMatrix) {
+        for (int i = 0; i < secondMatrix.getColumns(); ++i) {
+            LinearLayout llAug = newLinearLayoutInstance();
+
+            for (int j = 0; j < secondMatrix.getRows(); ++j) {
+                FrameLayout editTextMatrixCell = newEditTextMatrixCellInstance(new DrawableSupplier() {
+                    @Override
+                    public Integer get() {
+                        return R.drawable.back_extens;
+                    }
+                }, secondMatrix.getValue(j, i));
+                llAug.addView(editTextMatrixCell);
+            }
+            addView(llAug);
+        }
+        tableChangeListener.onTableChange();
+    }
+
     public void addAugmentedColumn(AugmentedMatrix augmentedMatrix) {
         LinearLayout ll = newLinearLayoutInstance();
         for (int i = 0; i < curRows; ++i) {
@@ -96,7 +192,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
                 public Integer get() {
                     return R.drawable.back_extens;
                 }
-            });
+            }, augmentedMatrix.getValue(i, augmentedMatrix.getColumns()));
             ll.addView(editTextMatrixCell);
         }
         addView(ll);
@@ -115,10 +211,11 @@ public class TableMatrixLayout extends LinearLayoutCompat {
                     }
                     return getMainDrawable(curColumn, curRows);
                 }
-            });
+            }, 0);
 
             row.addView(editTextMatrixCell);
         }
+
         curRows++;
         tableChangeListener.onTableChange();
     }
@@ -132,6 +229,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
             LinearLayout ll = (LinearLayout) getChildAt(i);
             ll.removeViewAt(curRows - 1);
         }
+
         curRows--;
         tableChangeListener.onTableChange();
     }
@@ -149,22 +247,16 @@ public class TableMatrixLayout extends LinearLayoutCompat {
                 public Integer get() {
                     return getMainDrawable(curColumns, curRow);
                 }
-            });
-            EditTextMatrixCell cell = editTextMatrixCell.findViewById(R.id.cell);
-
-            if (iterator != null) {
-                if (iterator.hasNext()) {
-                    cell.setText(String.valueOf(iterator.next()));
-                }
-            }
+            }, iterator == null ? 0 : iterator.next());
 
             newColumn.addView(editTextMatrixCell);
         }
         if (isAugmented) {
-            addView(newColumn, curRows);
+            addView(newColumn, curColumns);
         } else {
             addView(newColumn);
         }
+
         curColumns++;
         tableChangeListener.onTableChange();
     }
@@ -182,11 +274,10 @@ public class TableMatrixLayout extends LinearLayoutCompat {
         }
 
         if (isAugmented) {
-            removeViewAt(curColumns-- - 2);
-            return;
+            removeViewAt(curColumns-- - 1);
+        } else {
+            removeViewAt(--curColumns);
         }
-        removeViewAt(--curColumns);
-
         tableChangeListener.onTableChange();
     }
 
@@ -201,20 +292,78 @@ public class TableMatrixLayout extends LinearLayoutCompat {
         return instance;
     }
 
-    private FrameLayout newEditTextMatrixCellInstance(DrawableSupplier supplier) {
+    private FrameLayout newEditTextMatrixCellInstance(DrawableSupplier supplier, Number number) {
         FrameLayout fl = (FrameLayout) LayoutInflater
                 .from(getContext())
                 .inflate(R.layout.table_item, null);
 
-        EditTextMatrixCell instance = fl.findViewById(R.id.cell);
+        final EditTextMatrixCell cellEditText = fl.findViewById(R.id.cell);
 
-        instance.setBackground(getResources().getDrawable(supplier.get()));
+        cellEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                for (int i = start; i < start + count; ++i) {
+                    Character c = s.charAt(i);
+                    if (c.compareTo('-') == 0) {
+                        cellEditText.setHasMinus(false);
+                    }
+                    if (c.compareTo('.') == 0 || c.compareTo('/') == 0) {
+                        cellEditText.setHasDivider(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                for (int i = start; i < start + count; ++i) {
+                    Character c = s.charAt(i);
+                    if (c.compareTo('-') == 0) {
+                        cellEditText.setHasMinus(true);
+                    }
+                    if (c.compareTo('.') == 0 || c.compareTo('/') == 0) {
+                        cellEditText.setHasDivider(true);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        cellEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                EditTextMatrixCell cell = (EditTextMatrixCell) v;
+                String text = String.valueOf(cell.getText());
+                if (hasFocus) {
+                    if (text.equals("0")) {
+                        cell.setText("");
+                    }
+                } else {
+                    if (text.isEmpty()) {
+                        cell.setText("0");
+                    }
+                }
+            }
+        });
+
+        if (accessType == 0) {
+            cellEditText.setInputType(InputType.TYPE_NULL);
+            cellEditText.setFocusable(false);
+        }
+
+        cellEditText.setText(formatter.numberToString(number));
+
+        cellEditText.setBackground(getResources().getDrawable(supplier.get()));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            instance.setShowSoftInputOnFocus(false);
+            cellEditText.setShowSoftInputOnFocus(false);
         } else {
-            instance.setTextIsSelectable(true);
+            cellEditText.setTextIsSelectable(true);
         }
+
+        cells.add(new Pair<>(cellEditText, number));
 
         return fl;
     }
@@ -229,6 +378,15 @@ public class TableMatrixLayout extends LinearLayoutCompat {
 
     public int getCurColumns() {
         return curColumns;
+    }
+
+    public void updateNumbers(ITextOutputFormat iTextOutputFormat) {
+        for (Pair<EditTextMatrixCell, Number> cellPair : cells) {
+            if (cellPair.first == null) {
+                continue;
+            }
+            cellPair.first.setText(iTextOutputFormat.numberToString(cellPair.second));
+        }
     }
 
     public interface TableChangeListener {

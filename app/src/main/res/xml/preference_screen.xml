@@ -19,10 +19,13 @@
 
     <PreferenceCategory android:title="Общие настройки">
         <CheckBoxPreference
+            android:cursorVisible="false"
+            android:enabled="false"
             android:icon="@drawable/ic_extension_black_24dp"
             android:key="experimental"
             android:summary="@string/settings_experimental_summary"
-            android:title="@string/settings_experimental_title" />
+            android:title="@string/settings_experimental_title"
+            android:visibility="gone" />
 
         <SwitchPreference
             android:icon="@drawable/ic_wb_sunny_black_24dp"
@@ -48,7 +51,7 @@
         <Preference
             android:icon="@drawable/ic_email_black_24dp"
             android:key="send_report"
-            android:summary="@string/setting_email_summary"
+            android:summary="@string/settings_send_email_summary"
             android:title="@string/settings_send_email_title" />
 
         <Preference

@@ -2,11 +2,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_enabled="true">
-        <color android:color="@color/colorButtonText"/>
+        <color android:color="?attr/colorButtonActivateStepsText" />
     </item>
 
     <item android:state_enabled="false">
-        <color android:color="@color/colorActivateStepsTextColorDisabled"/>
+        <color android:color="?attr/colorButtonActivateStepsTextDisabled" />
     </item>
 
 </selector>

@@ -1,7 +1,6 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:color="@color/colorDimensionRippleControls">
+    android:color="?attr/colorControlMatrixDimensionsButtonRipple">
     <item
         android:id="@android:id/background"
-        android:drawable="@color/colorDimensionControls"/>
+        android:drawable="?attr/colorControlMatrixDimensionsButton" />
 </ripple>

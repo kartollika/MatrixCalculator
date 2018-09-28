@@ -23,6 +23,7 @@
     <attr name="colorTextDimensionsInfo" format="color" />
 
     <attr name="colorNoMatrixText" format="color" />
+
     <attr name="colorMatrixCellNotDiagonalInactive" format="color" />
     <attr name="colorMatrixCellNotDiagonalActive" format="color" />
     <attr name="colorMatrixCellDiagonalInactive" format="color" />
@@ -32,10 +33,16 @@
     <attr name="colorTextCreateMatrix" format="color" />
     <attr name="colorSettingIcon" format="color" />
 
-
     <attr name="colorBottomNavigationIconInactive" format="color" />
     <attr name="colorBottomNavigationIconActive" format="color" />
     <attr name="colorSplashActivityTextInfo" format="color" />
+
+    <attr name="colorButtonActivateStepsText" format="color" />
+    <attr name="colorButtonActivateStepsTextDisabled" format="color" />
+    <attr name="colorPreferenceCardsDivider" format="color" />
+    <attr name="colorRippleItemChooseOperation" format="color" />
+    <attr name="colorOpenOperationChooserDialogButton" format="color" />
+    <attr name="colorOpenOperationChooserDialogButtonRipple" format="color" />
 
     <attr name="colorOperationChosen" format="color" />
 </resources>

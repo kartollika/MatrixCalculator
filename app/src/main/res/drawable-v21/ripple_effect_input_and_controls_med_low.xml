@@ -1,6 +1,7 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/colorRippleInput">
+    android:color="?attr/colorInputButtonRipple">
+
     <item
         android:id="@android:id/background"
-        android:drawable="@color/colorButtonInput"/>
+        android:drawable="?attr/colorInputButton" />
 </ripple>

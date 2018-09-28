@@ -1,16 +1,23 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat" />
-
+    <style name="AppTheme" parent="Theme.AppCompat"></style>
 
     <style name="ActivityTheme.Primary.Base.Light" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#9e9e9e</item>
         <item name="colorPrimaryDark">#818181</item>
         <item name="colorAccent">#FF4081</item>
-
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="cardViewStyle">@style/CardView</item>
         <item name="colorCardBackground">#ffffff</item>
+
+        <item name="colorMatrixCellNotDiagonalInactive">#4dd0e1</item>
+        <item name="colorMatrixCellNotDiagonalActive">#00d0cf</item>
+        <item name="colorMatrixCellDiagonalInactive">#64b5f6</item>
+        <item name="colorMatrixCellDiagonalActive">#2196f3</item>
+        <item name="colorMatrixCellAugmentedInactive">#c290ef</item>
+        <item name="colorMatrixCellAugmentedActive">#e1c0ff</item>
+        <item name="colorSaveButton">#ffa726</item>
+        <item name="colorSaveButtonRipple">#d1820d</item>
     </style>
 
     <style name="ActivityTheme.Primary.Base.Dark" parent="Theme.AppCompat">
@@ -21,39 +28,60 @@
         <item name="cardViewStyle">@style/CardView</item>
         <item name="colorCardBackground">#383838</item>
 
+        <item name="colorMatrixCellNotDiagonalInactive">#ff6161</item>
+        <item name="colorMatrixCellNotDiagonalActive">#fa8a8a</item>
+        <item name="colorMatrixCellDiagonalInactive">#9c1112</item>
+        <item name="colorMatrixCellDiagonalActive">#d43732</item>
+        <item name="colorMatrixCellAugmentedInactive">#05766d</item>
+        <item name="colorMatrixCellAugmentedActive">#40a19a</item>
+
+        <item name="colorSaveButton">#ffdb61</item>
+        <item name="colorSaveButtonRipple">#ffefba</item>
+
     </style>
 
     <style name="MainHubActivityThemeLight" parent="ActivityTheme.Primary.Base.Light">
         <item name="colorBottomNavigationIconInactive">#757575</item>
         <item name="colorBottomNavigationIconActive">?attr/colorAccent</item>
-        <item name="colorActionButton"></item>
+        <item name="colorInputButton">#2196f3</item>
+        <item name="colorInputButtonRipple">#01579b</item>
+        <item name="colorOpenOperationChooserDialogButton">#ff4081</item>
+        <item name="colorOpenOperationChooserDialogButtonRipple">#ad1457</item>
+        <item name="colorSaveButton">#ffa726</item>
+        <item name="colorSaveButtonRipple">#d1820d</item>
     </style>
 
     <style name="MainHubActivityThemeDark" parent="ActivityTheme.Primary.Base.Dark">
         <item name="colorBottomNavigationIconInactive">#e0e0e0</item>
         <item name="colorBottomNavigationIconActive">?attr/colorAccent</item>
+        <item name="colorInputButton">#616161</item>
+        <item name="colorInputButtonRipple">#8b8b8b</item>
+        <item name="colorOpenOperationChooserDialogButton">#fb696a</item>
+        <item name="colorOpenOperationChooserDialogButtonRipple">#ff938a</item>
+        <item name="colorSaveButton">#ffdb61</item>
+        <item name="colorSaveButtonRipple">#ffefba</item>
     </style>
 
     <style name="SplashScreenActivityThemeLight" parent="ActivityTheme.Primary.Base.Light">
         <item name="colorCardBackground">#cccccc</item>
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
         <item name="colorSplashActivityTextInfo">#333</item>
     </style>
 
     <style name="SplashScreenActivityThemeDark" parent="ActivityTheme.Primary.Base.Dark">
         <item name="colorCardBackground">#555555</item>
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
         <item name="colorSplashActivityTextInfo">#fff</item>
     </style>
 
     <style name="SettingsActivityThemeLight" parent="ActivityTheme.Primary.Base.Light">
         <item name="colorSettingIcon">#000</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="colorPreferenceCardsDivider">#15000000</item>
     </style>
 
     <style name="SettingsActivityThemeDark" parent="ActivityTheme.Primary.Base.Dark">
         <item name="colorSettingIcon">#fff</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="colorPreferenceCardsDivider">#15dedede</item>
     </style>
 
     <style name="InputMatrixActivityThemeLight" parent="ActivityTheme.Primary.Base.Light">
@@ -62,14 +90,11 @@
         <item name="colorControlMatrixContentButtonRipple">#0f62b4</item>
         <item name="colorControlMatrixDimensionsButton">#b9b9b9</item>
         <item name="colorControlMatrixDimensionsButtonRipple">#808080</item>
-        <item name="colorSaveButton">#ffa726</item>
-        <item name="colorSaveButtonRipple">#d1820d</item>
         <item name="colorTextCreateMatrix">#616161</item>
         <item name="colorHideMatrixSettings">#f06292</item>
         <item name="colorHideMatrixSettingsRipple">#d1245e</item>
         <item name="colorKeyboard">#ababab</item>
         <item name="colorKeyboardBackground">#757575</item>
-
     </style>
 
     <style name="InputMatrixActivityThemeDark" parent="ActivityTheme.Primary.Base.Dark">
@@ -78,8 +103,6 @@
         <item name="colorControlMatrixContentButtonRipple">#0f62b4</item>
         <item name="colorControlMatrixDimensionsButton">#616161</item>
         <item name="colorControlMatrixDimensionsButtonRipple">#a3a3a3</item>
-        <item name="colorSaveButton">#ffdb61</item>
-        <item name="colorSaveButtonRipple">#ffefba</item>
         <item name="colorTextCreateMatrix">#bdbdbd</item>
         <item name="colorHideMatrixSettings">#e27272</item>
         <item name="colorHideMatrixSettingsRipple">#ff938a</item>
@@ -91,12 +114,16 @@
         <item name="colorControlStepsButton">#42a5f5</item>
         <item name="colorControlStepsButtonRipple">#237cc4</item>
         <item name="colorControlStepsButtonDisabled">#9e9e9e</item>
+        <item name="colorButtonActivateStepsText">#fff</item>
+        <item name="colorButtonActivateStepsTextDisabled">#bebebe</item>
     </style>
 
     <style name="ShowResultActivityThemeDark" parent="ActivityTheme.Primary.Base.Dark">
         <item name="colorControlStepsButton">#4a69a2</item>
         <item name="colorControlStepsButtonRipple">#91a7cf</item>
         <item name="colorControlStepsButtonDisabled">#9e9e9e</item>
+        <item name="colorButtonActivateStepsText">#fff</item>
+        <item name="colorButtonActivateStepsTextDisabled">#bebebe</item>
     </style>
 
     <style name="WindowAnimationTransition">
@@ -107,19 +134,23 @@
     <style name="ChooseOperationActivityDialogLight" parent="Theme.AppCompat.Dialog">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
         <item name="colorPrimary">#9e9e9e</item>
         <item name="colorCardBackground">#ffffff</item>
         <item name="colorOperationChosen">#9f9f9f</item>
+        <item name="colorRippleItemChooseOperation">#616161</item>
     </style>
 
     <style name="ChooseOperationActivityDialogDark" parent="Theme.AppCompat.Dialog">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
         <item name="colorPrimary">#616161</item>
         <item name="colorCardBackground">#383838</item>
         <item name="colorOperationChosen">#969696</item>
+        <item name="colorRippleItemChooseOperation">#9e9e9e</item>
+    </style>
+
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@color/colorContrast</item>
     </style>
 
 </resources>

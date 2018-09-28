@@ -125,9 +125,9 @@
     <string name="number_is_even">x<sub>%1$d</sub> - even</string>
     <string name="scroll_to_see_more">Scroll down to see more</string>
     <string name="multiply_diagonal_elements">Multiply elements on the main diagonal and multiply by (-1)&lt;sup>%1$d&lt;/sup> - transposition sign</string>
-    <string name="triangle_start">Transforming the matrix to an upper triangle form</string>
-    <string name="e_start">Transform the matrix to an identity form</string>
     <string name="gauss_start">Use Gauss Elimination</string>
+    <string name="steps_triangle_start">Transforming the matrix to an upper triangle form</string>
+    <string name="steps_diagonal_start">Transform the matrix to diagonal form</string>
     <!-- End Steps of Operations -->
 
 

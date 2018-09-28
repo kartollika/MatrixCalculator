@@ -142,8 +142,8 @@
     <string name="number_is_even">x<sub>%1$d</sub> - любое</string>
     <string name="scroll_to_see_more">прокрути вниз, чтобы увидеть больше</string>
     <string name="multiply_diagonal_elements">Перемножим элементы, стоящие на главной диагонали и умножим на (-1)&lt;sup>%1$d&lt;/sup> - знак перестановки</string>
-    <string name="triangle_start">Приведем матрицу к верхнетреугольному виду</string>
-    <string name="e_start">Приведем матрицу к единичному виду</string>
+    <string name="steps_triangle_start">Приведем матрицу к верхнетреугольному виду</string>
+    <string name="steps_diagonal_start">Приведем матрицу к единичному виду</string>
     <string name="gauss_start">Решим систему уравнений методом Гаусса</string>
     <!-- End Steps of Operations -->
 

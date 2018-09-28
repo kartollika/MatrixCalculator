@@ -30,12 +30,12 @@ public class App extends Application {
     public static final String email = "maksimow.dmitrij@yandex.ru";
     private static final String TAG = "APP";
     private static final String APP_ID = "ca-app-pub-9193176037122415~9633966613";
-    public static String version;
+
     public static String CUR_REWARD;
+    private static String version;
     private static long estimatedTimeRemovingBanners;
     private static long estimatedTimeRemovingInterstitial;
     private static UpdateCheckerBroadcastReceiver updateCheckerBroadcastReceiver;
-    public boolean thisSession = false;
     private SharedPreferences preferences;
     private MatrixManager matrixManager;
 
@@ -61,6 +61,10 @@ public class App extends Application {
 
     public static boolean canShowNewInterstitialVideo() {
         return estimatedTimeRemovingInterstitial <= System.currentTimeMillis();
+    }
+
+    public static String getVersion() {
+        return version;
     }
 
     public static String getDeviceInfo(WindowManager windowManager) {
@@ -113,18 +117,22 @@ public class App extends Application {
         return updateCheckerBroadcastReceiver;
     }
 
+    private String initVersion() {
+        if (BuildConfig.BUILD_TYPE == "debug") {
+            return BuildConfig.VERSION_NAME + "_" + BuildConfig.BUILD_TYPE;
+        } else {
+            return BuildConfig.VERSION_NAME;
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        version = initVersion();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (BuildConfig.BUILD_TYPE.equals("debug")) {
-            version = BuildConfig.VERSION_NAME + "_" + BuildConfig.BUILD_TYPE;
-        } else {
-            version = BuildConfig.VERSION_NAME;
-        }
         matrixManager = MatrixManager.getInstance(this);
         initUpdaterBroadcastReceiver(this);
-        //initAds();
+        initAds();
     }
 
     @Override
@@ -135,7 +143,7 @@ public class App extends Application {
     }
 
     private void initAds() {
-        MobileAds.initialize(getApplicationContext(), APP_ID);
+        //MobileAds.initialize(getApplicationContext(), APP_ID);
         AdUtils.initResources(this);
         InterstitialShow.CUR_OPERATIONS = preferences.getInt("interstitialCurOperations", 1);
         setEstimatedTimeBanners(preferences.getLong("bannersEstimatedTime", System.currentTimeMillis()));

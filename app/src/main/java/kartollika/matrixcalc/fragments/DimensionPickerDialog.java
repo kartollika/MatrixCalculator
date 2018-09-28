@@ -19,13 +19,16 @@ public class DimensionPickerDialog extends DialogFragment {
 
     public static final String KEY_CUR_DIMENSION = "cur_dimension";
     public static final String NEW_DIMENSION_VALUE = "new_dimension_value";
+    public static final String KEY_WHAT_DIMENSION_TO_SET = "what_dimension";
 
     private int curDimension;
+    private int whatDimension;
 
-    public static DimensionPickerDialog newInstance(int curDimension) {
+    public static DimensionPickerDialog newInstance(int curDimension, int what) {
 
         Bundle args = new Bundle();
         args.putInt(KEY_CUR_DIMENSION, curDimension);
+        args.putInt(KEY_WHAT_DIMENSION_TO_SET, what);
         DimensionPickerDialog fragment = new DimensionPickerDialog();
         fragment.setArguments(args);
         return fragment;
@@ -35,12 +38,13 @@ public class DimensionPickerDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         curDimension = getArguments().getInt(KEY_CUR_DIMENSION);
+        whatDimension = getArguments().getInt(KEY_WHAT_DIMENSION_TO_SET);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_dimension_picker, null);
+        View v = requireActivity().getLayoutInflater().inflate(R.layout.dialog_dimension_picker, null);
         final NumberPicker numberPicker = v.findViewById(R.id.numberPicker);
 
         numberPicker.setMinValue(1);
@@ -56,7 +60,7 @@ public class DimensionPickerDialog extends DialogFragment {
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setTitle(R.string.setup_dims)
+                .setTitle(whatDimension == 0 ? R.string.settings_default_rows_title : R.string.settings_default_columns_title)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

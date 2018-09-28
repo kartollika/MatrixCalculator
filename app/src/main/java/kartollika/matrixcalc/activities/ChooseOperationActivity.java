@@ -34,10 +34,10 @@ public class ChooseOperationActivity extends AppCompatActivity {
 
         Operation oper = (Operation) getIntent().getSerializableExtra("operation_chosen");
 
-        if (oper.compareTo(Operation.INVERSE) < 0) {
+        if (oper.compareTo(Operation.DETERMINANT) < 0) {
             fragmentTransaction.replace(R.id.container, new Binaries()).commit();
             switchTab(0);
-        } else if (oper.compareTo(Operation.INVERSE) >= 0) {
+        } else {
             fragmentTransaction.replace(R.id.container, new Unaries()).commit();
             switchTab(1);
         }

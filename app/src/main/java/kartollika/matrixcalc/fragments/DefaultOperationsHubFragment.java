@@ -30,17 +30,19 @@ import kartollika.matrixmodules.matrix.Matrix;
 import kartollika.matrixmodules.operations.Operation;
 
 import static kartollika.matrixcalc.activities.InputMatrixActivity.KEY_MATRIX_TYPE;
+import static kartollika.matrixcalc.activities.ShowResultActivity.KEY_COEFFICIENT;
+import static kartollika.matrixcalc.fragments.InputConstantFragmentDialog.KEY_INPUT_CONSTANT;
 
 public class DefaultOperationsHubFragment extends Fragment implements View.OnClickListener {
 
-    public static final String TAG = "DefaultOperationsHubFragment";
+    public static final String TAG = "DefaultOperHubFragment";
     public static final String KEY_OPERATION_CHOSEN = "operation_chosen";
     public static final String KEY_OPERATION_TEXT = "operation_text";
 
+    private static final String DIALOG_CONSTANT = "input_constant";
     private static final int REQUEST_OPERATION = 0;
-    private static final int REQUEST_SOLVE = 1;
-    private static final int MATRIX_INPUT = 1;
-    private static final int SOLVE = 2;
+    public static final int REQUEST_SOLVE = 1;
+    private static final int REQUEST_CONSTANT = 2;
     private Button buttonA;
     private Button buttonB;
     private Button buttonChooseOperation;
@@ -151,16 +153,46 @@ public class DefaultOperationsHubFragment extends Fragment implements View.OnCli
                     return;
                 }
 
-                if (checkMatrixDimensionsCompabilities(curOperation)) {
-                    Intent i = new Intent(getActivity(), ShowResultActivity.class);
-                    i.putExtra(ShowResultActivity.KEY_OPERATION_TO_SOLVE, curOperation);
-                    startActivityForResult(i, REQUEST_SOLVE);
-                } else {
-                    Toasty.error(requireContext(),
-                            getString(R.string.invalid_dimensions), Toast.LENGTH_LONG).show();
+                if (curOperation == Operation.MULTIPLY_BY_NUMBER
+                        || curOperation == Operation.MULTIPLY_BY_NUMBER_REVERSE
+                        || curOperation == Operation.POWER
+                        || curOperation == Operation.POWER_REVERSE) {
+                    InputConstantFragmentDialog inputConstantFragmentDialog = InputConstantFragmentDialog.newInstance(curOperation);
+                    inputConstantFragmentDialog.setTargetFragment(DefaultOperationsHubFragment.this, REQUEST_CONSTANT);
+                    inputConstantFragmentDialog.show(requireFragmentManager(), DIALOG_CONSTANT);
+                    return;
                 }
+
+                startSolving(curOperation);
             }
         }
+    }
+
+    private Intent getSolverIntent(Operation operation) {
+        Intent i = new Intent(getActivity(), ShowResultActivity.class);
+        i.putExtra(ShowResultActivity.KEY_OPERATION_TO_SOLVE, curOperation);
+        return i;
+    }
+
+    private void startSolving(Operation operation) {
+        if (!checkMatrixDimensionsCompabilities(curOperation)) {
+            Toasty.error(requireContext(),
+                    getString(R.string.invalid_dimensions), Toast.LENGTH_LONG).show();
+            return;
+        }
+        Intent i = getSolverIntent(curOperation);
+        startActivityForResult(i, REQUEST_SOLVE);
+    }
+
+    private void startSolving(Operation operation, Number coefficient) {
+        if (!checkMatrixDimensionsCompabilities(curOperation)) {
+            Toasty.error(requireContext(),
+                    getString(R.string.invalid_dimensions), Toast.LENGTH_LONG).show();
+            return;
+        }
+        Intent i = getSolverIntent(operation);
+        i.putExtra(KEY_COEFFICIENT, coefficient);
+        startActivityForResult(i, REQUEST_SOLVE);
     }
 
     private boolean checkMatrixDimensionsCompabilities(Operation curOperation) {
@@ -216,34 +248,59 @@ public class DefaultOperationsHubFragment extends Fragment implements View.OnCli
     }
 
     @Override
+    public void onStart() {
+        updateDimensionsOnButtons();
+        super.onStart();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            if (requestCode != SOLVE) {
-                return;
-            }
-
-            if (resultCode != Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            if (requestCode == REQUEST_CONSTANT) {
+                Toasty.error(requireContext(), getString(R.string.number_not_found), Toast.LENGTH_SHORT).show();
                 return;
             }
         }
 
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_OPERATION: {
-                    curOperation = (Operation) data.getSerializableExtra(KEY_OPERATION_CHOSEN);
-                    String s = data.getStringExtra(KEY_OPERATION_TEXT);
-                    updateOperationButton(s);
+        if (requestCode == REQUEST_SOLVE) {
+            solveCallback.onSolve();
+            return;
+        }
 
-                    break;
-                }
+        if (resultCode != Activity.RESULT_OK) return;
 
-                case SOLVE: {
-                    solveCallback.onSolve();
-                    break;
-                }
+        switch (requestCode) {
+            case REQUEST_OPERATION: {
+                curOperation = (Operation) data.getSerializableExtra(KEY_OPERATION_CHOSEN);
+                String s = data.getStringExtra(KEY_OPERATION_TEXT);
+                updateOperationButton(s);
+
+                break;
+            }
+
+            case REQUEST_CONSTANT: {
+                Number coefficient = (Number) data.getSerializableExtra(KEY_INPUT_CONSTANT);
+                startSolving(curOperation, coefficient);
             }
         }
+    }
+
+    private void updateDimensionsOnButtons() {
+        MatrixManager matrixManager = MatrixManager.getInstance(requireContext());
+        String sA = "<big>A</big><sup><small>" + String.valueOf(matrixManager.getA().getRows())
+                + "x" + String.valueOf(matrixManager.getA().getColumns()) + "</small></sup>";
+        buttonA.setText(Html.fromHtml(sA));
+
+        String sB = "<big>B</big><sup><small>" + String.valueOf(matrixManager.getB().getRows())
+                + "x" + String.valueOf(matrixManager.getB().getColumns()) + "</small></sup>";
+        buttonB.setText(Html.fromHtml(sB));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateDimensionsOnButtons();
     }
 
     @Override

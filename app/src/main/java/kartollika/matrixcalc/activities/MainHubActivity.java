@@ -1,6 +1,7 @@
 package kartollika.matrixcalc.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,27 +9,35 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.IOperationSave;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.SolveCallback;
+import kartollika.matrixcalc.fragments.AppRater;
 import kartollika.matrixcalc.fragments.DefaultOperationsHubFragment;
 import kartollika.matrixcalc.fragments.LinearSystemHubFragment;
 import kartollika.matrixcalc.utilities.AdUtils;
+import kartollika.matrixcalc.utilities.InterstitialShow;
 import kartollika.matrixmodules.operations.Operation;
+
+import static kartollika.matrixcalc.utilities.AdUtils.rewardedVideoAd;
 
 public class MainHubActivity extends SingleFragmentActivity implements SolveCallback, IOperationSave {
 
     private AdView adView;
-    private BottomNavigationView bottomNavigationView;
-    private int isNightmodeOn = AppCompatDelegate.MODE_NIGHT_NO;
     private Operation operation = Operation.NONE;
 
     @Override
@@ -45,7 +54,6 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.MainHubActivityThemeDark);
-            isNightmodeOn = AppCompatDelegate.MODE_NIGHT_YES;
         }
 
         if (savedInstanceState != null) {
@@ -55,8 +63,12 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
         super.onCreate(savedInstanceState);
 
         adView = findViewById(R.id.adView);
+        AdUtils.initBanner(this);
+        AdUtils.initRewardedVideo(this);
+        AdUtils.initInterstitialAd(this);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -121,9 +133,79 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
             }
 
             case R.id.menu_item_block_ads: {
+                if (!App.canShowNewBannersVideo() && !App.canShowNewInterstitialVideo()) {
+                    Toasty.error(getApplicationContext(), getString(R.string.error_try_watch_ad_again),
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                final List<CharSequence> sequenceArrayList = new ArrayList<>();
+
+                if (App.canShowNewBannersVideo()) {
+                    sequenceArrayList.add(getString(R.string.block_ads,
+                            getString(R.string.banners), App.BLOCKING_BANNERS));
+                }
+
+                if (App.canShowNewInterstitialVideo()) {
+                    sequenceArrayList.add(getString(R.string.block_ads,
+                            getString(R.string.interstitials), App.BLOCKING_INTERSITIALS));
+                }
+
+                final AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle(R.string.block_ads_title)
+                        .setItems(sequenceArrayList.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                if (sequenceArrayList.size() == 1) {
+                                    if (App.canShowNewBannersVideo()) {
+                                        showBannerVideo();
+                                    } else {
+                                        showInterstitialVideo();
+                                    }
+                                    return;
+                                }
+                                switch (i) {
+                                    case 0:
+                                        showBannerVideo();
+                                        dialog.dismiss();
+                                        break;
+
+                                    case 1:
+                                        showInterstitialVideo();
+                                        dialog.dismiss();
+                                }
+                            }
+                        })
+
+                        .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+
+                        .setCancelable(true)
+                        .create();
+
+                dialog.show();
+                return true;
             }
         }
         return true;
+    }
+
+    private void showInterstitialVideo() {
+        if (App.canShowNewInterstitialVideo()) {
+            App.CUR_REWARD = "INTERSTITIAL";
+            AdUtils.showRewardVideoAd(getApplicationContext());
+        }
+    }
+
+    private void showBannerVideo() {
+        if (App.canShowNewBannersVideo()) {
+            App.CUR_REWARD = "BANNERS";
+            AdUtils.showRewardVideoAd(getApplicationContext());
+        }
     }
 
     private void openSettings(Context context) {
@@ -141,19 +223,19 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
     protected void onDestroy() {
         super.onDestroy();
         AdUtils.destroyBanner(adView);
-        //rewardedVideoAd.destroy(this);
+        rewardedVideoAd.destroy(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //rewardedVideoAd.resume(this);
+        rewardedVideoAd.resume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //rewardedVideoAd.pause(this);
+        rewardedVideoAd.pause(this);
     }
 
     /**
@@ -161,7 +243,8 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
      */
     @Override
     public void onSolve() {
-
+        AppRater.shouldShowRater(this, getFragmentManager());
+        InterstitialShow.showInterstitialAd();
     }
 
     @Override

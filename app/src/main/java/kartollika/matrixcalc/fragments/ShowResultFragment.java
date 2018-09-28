@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import kartollika.matrixcalc.ITextOutputFormat;
 import kartollika.matrixcalc.MatrixManager;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.utilities.OperationHintsAndroid;
@@ -64,6 +65,8 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
     private UnaryOperationStrategyManager unaryManager = new UnaryOperationStrategyManager();
     private BinaryOperationStrategyManager binaryManager = new BinaryOperationStrategyManager();
     private TableMatrixLayout table;
+    private ITextOutputFormat formatter;
+    private int formatterCnt = 0;
 
     public static ShowResultFragment newInstance(Operation operation) {
         Bundle args = new Bundle();
@@ -107,6 +110,13 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
             menu.findItem(R.id.menu_item_into_A).setVisible(false);
             menu.findItem(R.id.menu_item_into_B).setVisible(false);
         }
+
+        MenuItem formatterItem = menu.findItem(R.id.menu_item_convert_values);
+        if (formatterCnt == 0) {
+            formatterItem.setTitle(R.string.convert_to_doubles);
+        } else {
+            formatterItem.setTitle(R.string.convert_to_rationales);
+        }
     }
 
     @Override
@@ -133,14 +143,14 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
                         requireContext().getString(R.string.save_to_slot_success), Toast.LENGTH_SHORT).show();
             }
 
-            case R.id.menu_item_as_doubles: {
-                table.updateNumbers(TableMatrixLayout.DOUBLES_FORMATTER);
-                break;
-            }
-
-            case R.id.menu_item_as_rationales: {
-                table.updateNumbers(TableMatrixLayout.RATIONALES_FORMATTER);
-                break;
+            case R.id.menu_item_convert_values: {
+                if (formatterCnt == 0) {
+                    table.updateNumbers(TableMatrixLayout.DOUBLES_FORMATTER);
+                } else {
+                    table.updateNumbers(TableMatrixLayout.RATIONALES_FORMATTER);
+                }
+                formatterCnt = (formatterCnt + 1) % 2;
+                requireActivity().invalidateOptionsMenu();
             }
         }
         return true;
@@ -286,20 +296,18 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
 
             case POWER: {
                 binaryManager.setStrategy(new OperationPower(steppingOperation));
-                new SolveOperationTask(binaryManager).execute(matrixManager.getA());
+                new SolveOperationTask(binaryManager).execute(matrixManager.getA(), coefficient);
                 break;
             }
             case POWER_REVERSE: {
                 binaryManager.setStrategy(new OperationPower(steppingOperation));
-                new SolveOperationTask(binaryManager).execute(matrixManager.getB());
+                new SolveOperationTask(binaryManager).execute(matrixManager.getB(), coefficient);
                 break;
             }
 
             case SYSTEM_SOLVE: {
                 unaryManager.setStrategy(new OperationSolveSystem(steppingOperation));
                 new SolveOperationTask(unaryManager).execute(matrixManager.getMatrixSystem());
-                hints.setVisibility(View.VISIBLE);
-                hints.setText(Html.fromHtml((String) unaryManager.getSteps().get(unaryManager.getSteps().size() - 1)[1]));
                 break;
             }
 
@@ -349,10 +357,6 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            /*ShowResultFragment.this
-                    .requireActivity()
-                    .findViewById(R.id.progressSteps)
-                    .setVisibility(View.VISIBLE);*/
         }
 
         @Override
@@ -384,17 +388,44 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
         protected void onPostExecute(Matrix matrix) {
             super.onPostExecute(matrix);
             result = matrix;
-            if (matrix == null) {
-                TextView noMatrix = new TextView(requireContext());
-                noMatrix.setText(R.string.matrix_does_not_exist);
-                noMatrix.setTextSize(16);
-                table.addView(noMatrix);
-                buttonActivateSteps.setEnabled(false);
-                return;
-            }
 
             if (unaryManager.getSteps() != null) {
                 buttonActivateSteps.setVisibility(View.VISIBLE);
+                if (unaryManager.getSteps().size() == 0) {
+                    buttonActivateSteps.setEnabled(false);
+                }
+            }
+
+            if (matrix == null) {
+                switch (operation) {
+                    case INVERSE:
+                    case INVERSE_REVERSE: {
+                        TextView noMatrix = new TextView(requireContext());
+                        noMatrix.setText(R.string.matrix_does_not_exist);
+                        noMatrix.setTextSize(16);
+                        table.addView(noMatrix);
+                        buttonActivateSteps.setEnabled(false);
+                        return;
+                    }
+                }
+            }
+
+            if (operation == Operation.SYSTEM_SOLVE && result.equals(new AugmentedMatrix(result.getRows(), result.getColumns()))) {
+                hints.setVisibility(View.VISIBLE);
+                hints.setText(R.string.nothing_to_solve);
+                buttonActivateSteps.setEnabled(false);
+                table.initTable(result);
+                return;
+            }
+
+            if (operation == Operation.SYSTEM_SOLVE) {
+                hints.setVisibility(View.VISIBLE);
+                hints.setText(Html.fromHtml((String) unaryManager.getSteps().get(unaryManager.getSteps().size() - 1)[1]));
+            }
+
+            if (operation == Operation.SYSTEM_SOLVE) {
+                hints.setVisibility(View.VISIBLE);
+                hints.setText(Html.fromHtml((String) unaryManager.getSteps().get(unaryManager.getSteps().size() - 1)[1]));
             }
 
             requireActivity().invalidateOptionsMenu();

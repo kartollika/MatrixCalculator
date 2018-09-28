@@ -7,8 +7,10 @@ import android.util.AttributeSet;
 
 public class EditTextMatrixCell extends android.support.v7.widget.AppCompatEditText {
 
-    boolean hasMinus;
-    boolean hasDivider;
+    public static final String TAG = "EditTextMatrixCell";
+
+    private boolean hasMinus;
+    private boolean hasDivider;
 
     public EditTextMatrixCell(Context context) {
         super(context);
@@ -48,11 +50,45 @@ public class EditTextMatrixCell extends android.support.v7.widget.AppCompatEditT
     }
 
     public void switchMinus() {
+        String text = String.valueOf(getText());
+        if (text.length() == 0) {
+            setText("-");
+            hasMinus = true;
+        }
+        Character first = text.charAt(0);
+        if (first.compareTo('-') == 0) {
+            text = text.replaceFirst("-", "");
+        } else {
+            text = "-" + text;
+        }
+        setText(text);
+        hasMinus = !hasDivider;
+    }
+
+    public void setDivider(int currentFocus) {
+        String text = String.valueOf(getText());
+        if (text.length() == currentFocus) {
+            //switchDivider();
+            return;
+        }
 
     }
 
-    public void setDivider() {
-
+    private void switchDivider(String text) {
+        if (!hasDivider) {
+            text = text + ".";
+            setText(text);
+            return;
+        }
+        text = text.replace(".", "/");
+        setText(text);
     }
 
+    public void setHasMinus(boolean hasMinus) {
+        this.hasMinus = hasMinus;
+    }
+
+    public void setHasDivider(boolean hasDivider) {
+        this.hasDivider = hasDivider;
+    }
 }

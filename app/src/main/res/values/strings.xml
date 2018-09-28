@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Матричный калькулятор</string>
-    <string name="title_theory">Теория</string>
     <string name="title_SLE">СЛАУ</string>
     <string name="title_operations">Операции</string>
     <string name="app_id" translatable="false">ca-app-pub-9193176037122415~9633966613</string>
@@ -68,9 +67,9 @@
     <!-- Update Checker Service -->
     <string name="checkerservice_update_available">Доступно обновление!</string>
     <string name="checkerservice_click_to_update">Нажмите, чтобы обновить приложение до версии %1$s</string>
-    <string name="checkerservice_no_update_available">Новых обновлений нет</string>
+    <string name="checkerservice_no_update_available">Установлена самая новая версия!</string>
     <string name="checkerservice_click_notification_to_proceed">Нажмите на соответстующее уведомление на панели, чтобы обновить приложение</string>
-    <string name="checkerservice_connection_error">Ошибка подключения при попытке запросить обновления</string>
+    <string name="checkerservice_connection_error">Ошибка подключения</string>
     <!-- End of Update Checker Service -->
 
 
@@ -93,17 +92,19 @@
     <string name="step_by_step_title">Пошаговое решение</string>
     <string name="inform_about_experimental">Чтобы создавать матрицы больших размеров, выберите опцию \'Экспериментальная версия\' в настройках</string>
     <string name="save_result">Сохранить итог..</string>
-    <string name="to_slot_1">в матрицу A</string>
-    <string name="to_slot_2">в матрицу B</string>
+    <string name="to_slot_1">В матрицу А</string>
+    <string name="to_slot_2">В матрицу B</string>
     <string name="save_to_slot_1_success">Матрица сохранена в слот А</string>
     <string name="save_to_slot_2_success">Матрица сохранена в слот В</string>
     <string name="save_to_slot_fail">Матрица не существует\nСохранить не удалось</string>
     <string name="matrix_does_not_exist">Обратной матрицы не существует</string>
     <string name="nothing_to_solve">Нечего решать :с</string>
-    <string name="to_system_slot">в слот матрицы</string>
+    <string name="to_system_slot">В слот матрицы</string>
     <string name="save_to_slot_success">Матрица сохранена в слот системы</string>
     <string name="inverse_result">Обратная матрица:</string>
     <string name="determinant_result">Определитель матрицы:</string>
+    <string name="convert_to_doubles" translatable="false">->0.5</string>
+    <string name="convert_to_rationales" translatable="false">->1/2</string>
     <!-- End of Show Result Activity -->
 
 
@@ -140,8 +141,7 @@
     </string>
     <string name="number_is_even">x<sub>%1$d</sub> - любое</string>
     <string name="scroll_to_see_more">прокрути вниз, чтобы увидеть больше</string>
-    <string name="multiply_diagonal_elements">Перемножим элементы, стоящие на главной диагонали и умножим на (-1)</string>
-    <string name="transition_sign">знак перестановки</string>
+    <string name="multiply_diagonal_elements">Перемножим элементы, стоящие на главной диагонали и умножим на (-1)&lt;sup>%1$d&lt;/sup> - знак перестановки</string>
     <string name="triangle_start">Приведем матрицу к верхнетреугольному виду</string>
     <string name="e_start">Приведем матрицу к единичному виду</string>
     <string name="gauss_start">Решим систему уравнений методом Гаусса</string>
@@ -165,6 +165,7 @@
 
 
     <!-- Shared Stuff -->
+    <string name="ok" translatable="false">Ok</string>
     <string name="ad_load_failed">Не удалось загрузить рекламный блок :с</string>
     <string name="email_subject">Матричный калькулятор (Отзыв)</string>
     <string name="email_text">Докладываю о..</string>

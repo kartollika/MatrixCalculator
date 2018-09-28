@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/menu_item_settings"
-        android:title="Settings" />
+        android:title="@string/settings" />
     <item
         android:id="@+id/menu_item_send_email"
-        android:title="Написать разработчику" />
+        android:title="@string/settings_send_email_title" />
     <item
         android:id="@+id/menu_item_rate_in_gp"
-        android:title="Оценить приложение" />
+        android:title="@string/rate" />
     <item
         android:id="@+id/menu_item_block_ads"
-        android:title="Убрать рекламу" />
+        android:title="@string/remove_ads" />
 </menu>

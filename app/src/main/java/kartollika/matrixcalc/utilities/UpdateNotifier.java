@@ -37,7 +37,6 @@ public class UpdateNotifier {
     }
 
 
-
     void sendNotification(@NonNull String status, @NonNull String message, boolean hasUpdates) {
         final Snackbar snackbar;
         if (status.equals(UpdateCheckerBroadcastReceiver.ACTION_UPDATE_CHECK_CONNECTION_ERROR)) {
@@ -52,7 +51,9 @@ public class UpdateNotifier {
                     }
                 }).show();
             } catch (Exception e) {
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                if (activity != null) {
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                }
             }
         } else {
             if (hasUpdates) {

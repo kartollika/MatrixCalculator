@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -44,7 +43,6 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     private static final int TARGET_SET_COLUMNS = 1;
     private static final String REQUEST_SETTER_DIALOG = "set_dimension";
 
-    private int matrixType;
 
     private ViewGroup root;
     private ViewGroup fullCard;
@@ -64,6 +62,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     private Button buttonSetColumns;
     private Button buttonDecColumns;
     private TableMatrixLayout table;
+    private int matrixType;
 
     private boolean isUpperCardFullyHidden;
     private boolean isUpperCardHidden;
@@ -119,17 +118,17 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         table = v.findViewById(R.id.table);
         bindButtons();
 
-        HorizontalScrollView hsv = v.findViewById(R.id.horScroll);
-        hsv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+        /*HorizontalScrollView hsv = v.findViewById(R.id.horScroll);
+        //hsv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         hsv.setFocusable(true);
-        hsv.setFocusableInTouchMode(true);
+        //hsv.setFocusableInTouchMode(true);
         hsv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.requestFocusFromTouch();
                 return false;
             }
-        });
+        });*/
 
         ScrollView sv = v.findViewById(R.id.verScroll);
         sv.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
@@ -157,7 +156,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         buttonSetRows.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(curRows);
+                DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(curRows, 0);
                 dimensionPickerDialog.setTargetFragment(InputMatrixFragment.this, TARGET_SET_ROWS);
                 dimensionPickerDialog.show(requireFragmentManager(), REQUEST_SETTER_DIALOG);
             }
@@ -168,7 +167,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         buttonSetColumns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(curColumns);
+                DimensionPickerDialog dimensionPickerDialog = DimensionPickerDialog.newInstance(curColumns, 1);
                 dimensionPickerDialog.setTargetFragment(InputMatrixFragment.this, TARGET_SET_COLUMNS);
                 dimensionPickerDialog.show(requireFragmentManager(), REQUEST_SETTER_DIALOG);
             }
@@ -328,7 +327,11 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
                         try {
                             number = RationalNumber.parseRational(text);
                         } catch (NumberFormatException nfeRational) {
-                            throw new NumberFormatException(getString(R.string.invalid_value_in_cell, j + 1, i + 1));
+                            if (text.isEmpty()) {
+                                number = 0;
+                            } else {
+                                throw new NumberFormatException(getString(R.string.invalid_value_in_cell, j + 1, i + 1));
+                            }
                         }
                     }
                 }
@@ -461,6 +464,15 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         super.onStop();
         PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
                 .putBoolean(KEY_MATRIX_TYPE, isNotificationRequired)
+                .apply();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .edit()
+                .putBoolean(KEY_HIDE_CARD_NOTIFICATION, isNotificationRequired)
                 .apply();
     }
 }

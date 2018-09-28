@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout3"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,27 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp"
         android:fadeScrollbars="false"
         android:gravity="center"
         android:maxLines="5"
+        android:text="Тут будет текст пояснений"
         android:textColor="@color/colorTextCreateMatrix"
         android:textSize="18sp"
         android:visibility="gone"
+        ads:layout_constraintBottom_toTopOf="@+id/include"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toTopOf="parent"
-        tools:text="Тут будет текст пояснений" />
+        ads:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/include"
         layout="@layout/table"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="6dp"
         ads:layout_constraintBottom_toTopOf="@+id/navigation"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
@@ -41,15 +41,15 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:paddingBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:visibility="visible"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent">
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toBottomOf="@+id/include">
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline4"
@@ -62,16 +62,19 @@
             android:id="@+id/buttonActivateSteps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/ripple_activ_steps"
+            android:text="@string/step_by_step_title"
             android:textColor="#ffffff"
             android:visibility="gone"
+            ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/stepsProgressBar"
-            style="?android:attr/progressBarStyleHorizontal"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -83,9 +86,11 @@
             android:id="@+id/buttonPreviousStep"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/ripple_activ_steps"
             android:text="@string/previous_step"
             android:visibility="gone"
+            ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toStartOf="@+id/guideline4"
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintTop_toBottomOf="@+id/stepsProgressBar" />
@@ -94,9 +99,11 @@
             android:id="@+id/buttonNextStep"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/ripple_activ_steps"
             android:text="@string/next_step"
             android:visibility="gone"
+            ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="@+id/guideline4"
             ads:layout_constraintTop_toBottomOf="@+id/stepsProgressBar" />
@@ -106,8 +113,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            ads:constraint_referenced_ids="stepsProgressBar,buttonPreviousStep,buttonNextStep" />
+            ads:constraint_referenced_ids="buttonPreviousStep,stepsProgressBar,buttonNextStep" />
 
     </android.support.constraint.ConstraintLayout>
+
 
 </android.support.constraint.ConstraintLayout>

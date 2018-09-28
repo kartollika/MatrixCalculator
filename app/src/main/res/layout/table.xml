@@ -19,6 +19,7 @@
             android:id="@+id/verScroll"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="fill_horizontal"
             android:fillViewport="true"
             android:scrollbarSize="3dp"
             android:scrollbarStyle="insideOverlay">
@@ -26,7 +27,8 @@
             <kartollika.matrixcalc.utilities.TableMatrixLayout
                 android:id="@+id/table"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:focusable="true"
                 android:gravity="center"
                 android:orientation="horizontal">
 

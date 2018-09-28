@@ -10,7 +10,7 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:padding="32dp"
         android:visibility="visible">
 
         <Button
@@ -26,7 +26,6 @@
             android:text="@string/matrix_A"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/ts_input"
             app:layout_constraintBottom_toTopOf="@+id/buttonB"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +45,6 @@
             android:text="@string/matrix_B"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/ts_input"
             app:layout_constraintBottom_toTopOf="@+id/buttonSolve"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +53,6 @@
 
         <Button
             android:id="@+id/buttonChooseOperations"
-            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -65,12 +62,11 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/ripple_operation"
-            android:padding="12dp"
+            android:padding="20dp"
             android:text="@string/choose_operation"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/ts_oper"
             app:layout_constraintBottom_toBottomOf="@+id/buttonB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -86,11 +82,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/ripple_action"
-            android:padding="8dp"
+            android:padding="16dp"
             android:text="@string/to_solve"
             android:textAllCaps="false"
             android:textColor="@color/colorButtonTextAction"
-            android:textSize="@dimen/ts_action"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

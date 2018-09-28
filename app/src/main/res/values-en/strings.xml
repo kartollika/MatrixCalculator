@@ -59,6 +59,8 @@
     <string name="checkerservice_no_update_available">You are up to date!</string>
     <string name="checkerservice_click_notification_to_proceed">Click to notification in panel to update the app from Google Play</string>
     <string name="checkerservice_connection_error">Connection error</string>
+    <string name="update_via_google_play">"Update your application via Google Play</string>
+    <string name="try_again">Try again!</string>
     <!-- End of Update Checker Service -->
 
 
@@ -163,6 +165,7 @@
         It won\'t take more, than one minute, but you will make a huge contribution to future projects.
         Thanks for your support!
     </string>
+
     <!-- End of Shared Stuff -->
 
 

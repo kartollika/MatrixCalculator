@@ -43,6 +43,8 @@
     <attr name="colorRippleItemChooseOperation" format="color" />
     <attr name="colorOpenOperationChooserDialogButton" format="color" />
     <attr name="colorOpenOperationChooserDialogButtonRipple" format="color" />
+    <attr name="colorBackground" format="color" />
+    <attr name="colorSaveButtonText" format="color" />
 
     <attr name="colorOperationChosen" format="color" />
 </resources>

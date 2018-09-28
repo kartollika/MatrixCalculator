@@ -70,6 +70,9 @@
     <string name="checkerservice_no_update_available">Установлена самая новая версия!</string>
     <string name="checkerservice_click_notification_to_proceed">Нажмите на соответстующее уведомление на панели, чтобы обновить приложение</string>
     <string name="checkerservice_connection_error">Ошибка подключения</string>
+    <string name="update_via_google_play">"Обновите приложение с помощью Google Play</string>
+    <string name="try_again">Попробовать снова</string>
+
     <!-- End of Update Checker Service -->
 
 
@@ -91,7 +94,7 @@
     <string name="next_step">Следующий этап</string>
     <string name="step_by_step_title">Пошаговое решение</string>
     <string name="inform_about_experimental">Чтобы создавать матрицы больших размеров, выберите опцию \'Экспериментальная версия\' в настройках</string>
-    <string name="save_result">Сохранить итог..</string>
+    <string name="save_result">Сохранить..</string>
     <string name="to_slot_1">В матрицу А</string>
     <string name="to_slot_2">В матрицу B</string>
     <string name="save_to_slot_1_success">Матрица сохранена в слот А</string>
@@ -103,8 +106,8 @@
     <string name="save_to_slot_success">Матрица сохранена в слот системы</string>
     <string name="inverse_result">Обратная матрица:</string>
     <string name="determinant_result">Определитель матрицы:</string>
-    <string name="convert_to_doubles" translatable="false">->0.5</string>
-    <string name="convert_to_rationales" translatable="false">->1/2</string>
+    <string name="convert_to_doubles" translatable="false">Convert do doubles</string>
+    <string name="convert_to_rationales" translatable="false">Convert to rationals</string>
     <!-- End of Show Result Activity -->
 
 

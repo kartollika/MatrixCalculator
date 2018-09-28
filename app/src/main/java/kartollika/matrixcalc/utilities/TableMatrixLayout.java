@@ -353,9 +353,12 @@ public class TableMatrixLayout extends LinearLayoutCompat {
             cellEditText.setFocusable(false);
         }
 
+
         cellEditText.setText(formatter.numberToString(number));
 
         cellEditText.setBackground(getResources().getDrawable(supplier.get()));
+
+        cellEditText.setId(cells.size());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cellEditText.setShowSoftInputOnFocus(false);
@@ -363,7 +366,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
             cellEditText.setTextIsSelectable(true);
         }
 
-        cells.add(new Pair<>(cellEditText, number));
+        cells.add(new Pair<EditTextMatrixCell, Number>(cellEditText, number));
 
         return fl;
     }
@@ -386,6 +389,22 @@ public class TableMatrixLayout extends LinearLayoutCompat {
                 continue;
             }
             cellPair.first.setText(iTextOutputFormat.numberToString(cellPair.second));
+        }
+    }
+
+    public void updateNexts() {
+        EditTextMatrixCell startCell = cells.get(0).first;
+        if (startCell == null) {
+            return;
+        }
+        for (int i = 1; i < cells.size(); ++i) {
+            EditTextMatrixCell nextCell = cells.get(i).first;
+            if (nextCell == null) {
+                continue;
+            }
+
+            startCell.setNextFocusForwardId(nextCell.getId());
+            startCell = nextCell;
         }
     }
 

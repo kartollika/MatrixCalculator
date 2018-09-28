@@ -114,8 +114,10 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
         MenuItem formatterItem = menu.findItem(R.id.menu_item_convert_values);
         if (formatterCnt == 0) {
             formatterItem.setTitle(R.string.convert_to_doubles);
+            formatterItem.setIcon(R.drawable.ic_convert_to_doubles);
         } else {
             formatterItem.setTitle(R.string.convert_to_rationales);
+            formatterItem.setIcon(R.drawable.ic_convert_to_rationales);
         }
     }
 

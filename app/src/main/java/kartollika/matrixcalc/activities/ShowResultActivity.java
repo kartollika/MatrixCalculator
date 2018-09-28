@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.google.android.gms.ads.AdView;
 
+import java.io.Serializable;
+
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.fragments.ShowResultFragment;
+import kartollika.matrixcalc.utilities.AdUtils;
 import kartollika.matrixmodules.operations.Operation;
 
 public class ShowResultActivity extends SingleFragmentActivity {
@@ -22,7 +25,12 @@ public class ShowResultActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         Operation operation = (Operation) getIntent().getSerializableExtra(KEY_OPERATION_TO_SOLVE);
-        return ShowResultFragment.newInstance(operation);
+        Serializable number = getIntent().getSerializableExtra(KEY_COEFFICIENT);
+        if (number == null) {
+            return ShowResultFragment.newInstance(operation);
+        } else {
+            return ShowResultFragment.newInstance(operation, (Number) number);
+        }
     }
 
     @Override
@@ -38,17 +46,19 @@ public class ShowResultActivity extends SingleFragmentActivity {
         super.onCreate(savedInstanceState);
 
         adView = findViewById(R.id.adView);
+        AdUtils.initBanner(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //AdUtils.destroyBanner(adView);
+        AdUtils.destroyBanner(adView);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         setResult(Activity.RESULT_OK);
+        finish();
     }
 }

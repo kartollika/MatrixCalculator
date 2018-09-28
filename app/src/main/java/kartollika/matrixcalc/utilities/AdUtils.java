@@ -15,6 +15,7 @@ import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
+import es.dmoral.toasty.Toasty;
 import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.BuildConfig;
 import kartollika.matrixcalc.R;
@@ -82,18 +83,18 @@ public final class AdUtils {
                 switch (App.CUR_REWARD) {
                     case "BANNERS":
                         turnOnOffAdCard(activity, View.GONE);
-                        Toast.makeText(activity, resources.getString(R.string.succ_blocked_banners,
+                        Toasty.success(activity, resources.getString(R.string.succ_blocked_banners,
                                 BLOCKING_BANNERS), Toast.LENGTH_LONG).show();
                         break;
                     case "INTERSTITIAL":
-                        Toast.makeText(activity, resources.getString(R.string.succ_blocked_interstitials,
+                        Toasty.success(activity, resources.getString(R.string.succ_blocked_interstitials,
                                 BLOCKING_INTERSITIALS), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onRewardedVideoAdFailedToLoad(int i) {
-                Toast.makeText(activity, R.string.failed_watch_ad_connection_problem,
+                Toasty.success(activity, activity.getString(R.string.failed_watch_ad_connection_problem),
                         Toast.LENGTH_LONG).show();
             }
 
@@ -126,10 +127,10 @@ public final class AdUtils {
                     activity.findViewById(R.id.adText).setVisibility(View.GONE);
                 }
             });
-            //if (!BuildConfig.DEBUG) {
+            if (!BuildConfig.DEBUG) {
                 AdRequest adRequest = new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build();
                 adView.loadAd(adRequest);
-           // }
+            }
         } else {
             turnOnOffAdCard(activity, View.GONE);
         }
@@ -158,18 +159,18 @@ public final class AdUtils {
 
     private static void loadRewardVideoAd() {
         AdRequest adRequest;
-        //if (!BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             adRequest = new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build();
             rewardedVideoAd.loadAd(resources.getString(R.string.reward_video_ad), adRequest);
-       // }
+        }
     }
 
     private static void loadInterstitialAd() {
         AdRequest adRequest;
-       // if (!BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             adRequest = new AdRequest.Builder().addTestDevice(TARGET_DEVICE_ID).build();
             interstitialAd.loadAd(adRequest);
-       // }
+        }
     }
 
     public static void showRewardVideoAd(Context context) {
@@ -177,7 +178,8 @@ public final class AdUtils {
             rewardedVideoAd.show();
         } else {
             loadRewardVideoAd();
-            Toast.makeText(context, R.string.try_again_open_reward_video, Toast.LENGTH_SHORT).show();
+            Toasty.warning(context, context.getString(R.string.try_again_open_reward_video),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

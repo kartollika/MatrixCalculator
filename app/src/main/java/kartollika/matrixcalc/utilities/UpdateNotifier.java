@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
 import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.R;
 
@@ -43,7 +44,7 @@ public class UpdateNotifier {
             try {
                 snackbar = Snackbar.make(activity.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
 
-                snackbar.setAction("Try again", new View.OnClickListener() {
+                snackbar.setAction(R.string.try_again, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         activity.startService(UpdateCheckerService.getUpdateCheckerService(activity));
@@ -52,7 +53,7 @@ public class UpdateNotifier {
                 }).show();
             } catch (Exception e) {
                 if (activity != null) {
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                    Toasty.error(context, message, Toast.LENGTH_LONG).show();
                 }
             }
         } else {
@@ -75,7 +76,7 @@ public class UpdateNotifier {
 
                     sendNotificationInPanel(message);
                 } catch (Exception e) {
-                    Toast.makeText(context, "Click the notification on upper panel to update!", Toast.LENGTH_LONG).show();
+                    Toasty.warning(context, context.getString(R.string.checkerservice_click_notification_to_proceed), Toast.LENGTH_LONG).show();
                     sendNotificationInPanel(message);
                 }
             } else {
@@ -88,7 +89,7 @@ public class UpdateNotifier {
                         }
                     }).show();
                 } catch (Exception e) {
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                    Toasty.info(context, message, Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -97,7 +98,7 @@ public class UpdateNotifier {
     private void sendNotificationInPanel(String message) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         if (notificationManager == null) {
-            Toast.makeText(context, "Update your application via Google Play", Toast.LENGTH_LONG).show();
+            Toasty.warning(context, context.getString(R.string.update_via_google_play), Toast.LENGTH_LONG).show();
             return;
         }
 

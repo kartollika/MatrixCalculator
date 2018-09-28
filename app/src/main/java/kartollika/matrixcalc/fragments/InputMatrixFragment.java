@@ -10,11 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -38,12 +40,13 @@ import static kartollika.matrixcalc.fragments.DimensionPickerDialog.NEW_DIMENSIO
 public class InputMatrixFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
     public static final String TAG = "InputMatrixFragment";
+    public static final String KEY_CURRENT_ROWS = "current_rows_on_turn";
+    public static final String KEY_CURRENT_COLUMNS = "current_columns_on_turn";
+    public static final String KEY_SAVED_MATRIX = "saved_matrix";
 
     private static final int TARGET_SET_ROWS = 0;
     private static final int TARGET_SET_COLUMNS = 1;
     private static final String REQUEST_SETTER_DIALOG = "set_dimension";
-
-
     private ViewGroup root;
     private ViewGroup fullCard;
     private Group notFullCard;
@@ -85,10 +88,13 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         matrixType = getArguments().getInt(KEY_MATRIX_TYPE);
         isNotificationRequired = PreferenceManager
                 .getDefaultSharedPreferences(requireContext())
                 .getBoolean(KEY_HIDE_CARD_NOTIFICATION, true);
+
+        Log.i(TAG, "onCreate: ");
     }
 
     @Nullable
@@ -131,7 +137,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         });*/
 
         ScrollView sv = v.findViewById(R.id.verScroll);
-        sv.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        sv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         sv.setFocusable(true);
         sv.setFocusableInTouchMode(true);
         sv.setOnTouchListener(new View.OnTouchListener() {
@@ -141,7 +147,11 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
                 return false;
             }
         });
+
+        Log.i(TAG, "onCreateView: ");
+
         return v;
+
     }
 
     private void bindButtons() {
@@ -192,31 +202,44 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
 
                 textViewCurrentColumns.setText(getString(R.string.count_of_columns, table.getCurColumns()));
                 curColumns = table.getCurColumns();
+
+                table.updateNexts();
             }
         });
 
+        if (savedInstanceState == null) {
+            switch (matrixType) {
+                case 0: {
+                    matrix = matrixManager.getA();
+                    break;
+                }
 
-        switch (matrixType) {
-            case 0: {
-                matrix = matrixManager.getA();
-                break;
-            }
+                case 1: {
+                    matrix = matrixManager.getB();
+                    break;
+                }
 
-            case 1: {
-                matrix = matrixManager.getB();
-                break;
-            }
+                case 2: {
+                    matrix = matrixManager.getMatrixSystem();
+                    break;
+                }
 
-            case 2: {
-                matrix = matrixManager.getMatrixSystem();
-                break;
+                default: {
+                    matrix = new Matrix(3, 3);
+                }
             }
-
-            default: {
-                matrix = new Matrix(3, 3);
-            }
+            table.initTable(matrix);
         }
-        table.initTable(matrix);
+        Log.i(TAG, "onViewCreated: ");
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            matrix = (Matrix) savedInstanceState.getSerializable(KEY_SAVED_MATRIX);
+            table.initTable(matrix);
+        }
     }
 
     @Override
@@ -293,7 +316,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
 
             case R.id.saveButton: {
                 try {
-                    saveMatrix();
+                    passIntoManager(saveMatrix(curRows, curColumns));
                     Toasty.success(requireContext(), "Successfully saved").show();
                     requireActivity().finish();
                 } catch (NumberFormatException nfe) {
@@ -306,15 +329,20 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     /**
      * Save matrix to singleton Matrix Manager
      */
-    private void saveMatrix() {
+    private Matrix saveMatrix(int savingRows, int savingColumns) {
         Matrix newMatrix;
-        Number[][] values = new Number[curRows][curColumns];
+        Number[][] values = new Number[savingRows][savingColumns];
         Number[] coefficients;
         for (int i = 0; i < (matrixType == 2 ? table.getChildCount() - 1 : table.getChildCount()); ++i) {
             LinearLayout child = (LinearLayout) table.getChildAt(i);
             for (int j = 0; j < child.getChildCount(); ++j) {
-                EditTextMatrixCell cell = child.getChildAt(j).findViewById(R.id.cell);
-                String text = String.valueOf(cell.getText());
+                EditTextMatrixCell cell = (EditTextMatrixCell) ((FrameLayout) child.getChildAt(j)).getChildAt(0);
+                String text;
+                try {
+                    text = String.valueOf(cell.getText());
+                } catch (NullPointerException npe) {
+                    text = "0";
+                }
                 Number number;
                 try {
                     number = Long.parseLong(text);
@@ -340,9 +368,9 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         }
 
         if (matrixType == 2) {
-            coefficients = new Number[curRows];
+            coefficients = new Number[this.curRows];
             LinearLayout coefficientColumn = (LinearLayout) table.getChildAt(table.getChildCount() - 1);
-            for (int i = 0; i < curRows; ++i) {
+            for (int i = 0; i < this.curRows; ++i) {
                 EditTextMatrixCell cell = coefficientColumn.getChildAt(i).findViewById(R.id.cell);
                 String text = String.valueOf(cell.getText());
                 Number number;
@@ -368,8 +396,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         } else {
             newMatrix = new Matrix(values);
         }
-
-        passIntoManager(newMatrix);
+        return newMatrix;
     }
 
     private void checkRationaleNumberAsString(String numberString, int maxExponentValue) {
@@ -474,5 +501,11 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
                 .edit()
                 .putBoolean(KEY_HIDE_CARD_NOTIFICATION, isNotificationRequired)
                 .apply();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(KEY_SAVED_MATRIX, saveMatrix(table.getCurRows(), table.getCurColumns()));
     }
 }

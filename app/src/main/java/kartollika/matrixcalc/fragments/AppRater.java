@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
 import kartollika.matrixcalc.R;
 
 public class AppRater extends DialogFragment {
@@ -60,8 +61,8 @@ public class AppRater extends DialogFragment {
                             startActivity(new Intent(Intent.ACTION_VIEW,
                                     Uri.parse("market://details?id=" + getActivity().getPackageName())));
                         } catch (ActivityNotFoundException e) {
-                            Toast.makeText(getActivity().getApplicationContext(),
-                                    R.string.gp_not_found, Toast.LENGTH_LONG).show();
+                            Toasty.error(getActivity().getApplicationContext(),
+                                    getString(R.string.gp_not_found), Toast.LENGTH_LONG).show();
                         }
                         getSharedPreferences(getActivity()).edit().putBoolean(DISABLED, true).apply();
                         dismiss();

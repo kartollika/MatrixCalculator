@@ -39,7 +39,16 @@ public class EditTextMatrixCell extends android.support.v7.widget.AppCompatEditT
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (s.length() == 0) {
+                    hasDivider = false;
+                    hasMinus = false;
+                    return;
+                }
 
+                hasMinus = s.charAt(0) == '-';
+
+                String stringS = s.toString();
+                hasDivider = stringS.contains(".") ^ stringS.contains("/");
             }
         });
     }
@@ -50,38 +59,60 @@ public class EditTextMatrixCell extends android.support.v7.widget.AppCompatEditT
     }
 
     public void switchMinus() {
-        String text = String.valueOf(getText());
+        int selectionStart = getSelectionStart();
+        String text;
+
+        try {
+            text = String.valueOf(getText());
+        } catch (Exception e) {
+            text = "";
+        }
+
         if (text.length() == 0) {
             setText("-");
-            hasMinus = true;
+            setSelection(selectionStart + 1);
+            return;
         }
-        Character first = text.charAt(0);
-        if (first.compareTo('-') == 0) {
+
+        char first = text.charAt(0);
+        if (first == '-') {
             text = text.replaceFirst("-", "");
+            setText(text);
+            if (selectionStart != 0) {
+                setSelection(selectionStart - 1);
+            }
         } else {
             text = "-" + text;
-        }
-        setText(text);
-        hasMinus = !hasDivider;
-    }
-
-    public void setDivider(int currentFocus) {
-        String text = String.valueOf(getText());
-        if (text.length() == currentFocus) {
-            //switchDivider();
-            return;
-        }
-
-    }
-
-    private void switchDivider(String text) {
-        if (!hasDivider) {
-            text = text + ".";
             setText(text);
+            setSelection(selectionStart + 1);
+        }
+    }
+
+    public void setDivider() {
+        int selectionStart = getSelectionStart();
+        Editable text = getText();
+        if (text == null) return;
+
+        if (!hasDivider) {
+            text.insert(selectionStart, ".");
+            setText(text);
+            setSelection(selectionStart + 1);
             return;
         }
-        text = text.replace(".", "/");
+
+        switchDivider(selectionStart, text);
+
+    }
+
+    private void switchDivider(int selectionStart, Editable text) {
+        if (text.charAt(selectionStart - 1) == '.') {
+            text.replace(selectionStart - 1, selectionStart, "/");
+        } else if (text.charAt(selectionStart - 1) == '/') {
+            text.replace(selectionStart - 1, selectionStart, ".");
+        }
+
         setText(text);
+        setSelection(selectionStart);
     }
 
     public void setHasMinus(boolean hasMinus) {

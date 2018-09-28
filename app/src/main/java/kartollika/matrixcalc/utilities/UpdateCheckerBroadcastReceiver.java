@@ -34,10 +34,12 @@ public class UpdateCheckerBroadcastReceiver extends BroadcastReceiver {
                 String newVersionName = intent.getStringExtra("new_version");
                 if (newVersionName == null) {
                     if (fromSettings) {
-                        notifier.sendNotification(intent.getAction(), context.getString(R.string.checkerservice_no_update_available), false);
+                        notifier.sendNotification(intent.getAction(),
+                                context.getString(R.string.checkerservice_no_update_available), false);
                     }
                 } else {
-                    notifier.sendNotification(intent.getAction(), "Update " + newVersionName + " available", true);
+                    notifier.sendNotification(intent.getAction(),
+                            context.getString(R.string.checkerservice_click_to_update, newVersionName), true);
                 }
                 break;
             }

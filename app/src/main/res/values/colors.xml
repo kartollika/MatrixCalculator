@@ -41,4 +41,9 @@
     <color name="colorButtonTextAction">#ffffff</color>
     <color name="colorTextOperations">@color/colorAccent</color>
     <color name="colorContrast">#000000</color>
+
+    <color name="colorOpenOperationChooserDialogButtonRipple">#ad1457</color>
+    <color name="colorOpenOperationChooserDialogButton">#ff4081</color>
+    <color name="colorSaveButton">#ffa726</color>
+    <color name="colorSaveButtonRipple">#d1820d</color>
 </resources>

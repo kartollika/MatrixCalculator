@@ -52,4 +52,9 @@
 
     <color name="colorContrast">#fff</color>
 
+    <color name="colorOpenOperationChooserDialogButtonRipple">#ff938a</color>
+    <color name="colorOpenOperationChooserDialogButton">#fb696a</color>
+    <color name="colorSaveButton">#ffdb61</color>
+    <color name="colorSaveButtonRipple">#ffefba</color>
+
 </resources>

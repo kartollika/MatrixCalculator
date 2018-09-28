@@ -50,8 +50,8 @@
 
         <activity
             android:name=".activities.ShowResultActivity"
-            android:theme="@style/ShowResultActivityThemeLight"
-            android:label=""/>
+            android:label="@string/save_result"
+            android:theme="@style/ShowResultActivityThemeLight" />
 
         <activity
             android:name=".activities.ChooseOperationActivity"

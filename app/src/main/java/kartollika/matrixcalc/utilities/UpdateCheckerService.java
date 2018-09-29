@@ -67,11 +67,7 @@ public class UpdateCheckerService extends Service {
             try {
                 versionLineReady = future.get(TIMEOUT_GETTER, TimeUnit.MILLISECONDS);
                 Log.i(TAG, versionLineReady);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (TimeoutException e) {
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 e.printStackTrace();
             }
 

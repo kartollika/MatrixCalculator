@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -15,8 +14,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
-
-import com.google.android.gms.ads.MobileAds;
 
 import kartollika.matrixcalc.utilities.AdUtils;
 import kartollika.matrixcalc.utilities.InterstitialShow;
@@ -80,18 +77,18 @@ public class App extends Application {
     }
 
     public static void writeEmail(Activity activity) {
-        Resources resources = activity.getResources();
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        emailIntent = Intent.createChooser(emailIntent, "Choose the client for sending email..");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{App.email});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT,
-                resources.getString(R.string.email_subject));
+                activity.getString(R.string.email_subject));
         emailIntent.putExtra(Intent.EXTRA_TEXT,
-                resources.getString(R.string.email_text) +
+                activity.getString(R.string.email_text) +
                         "\n\n\n==========================\n" +
                         App.getDeviceInfo(activity.getWindowManager()));
-        activity.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
+        emailIntent = Intent.createChooser(emailIntent, activity.getString(R.string.choose_mail_client));
+        activity.startActivity(emailIntent);
+        //activity.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
     }
 
     public static void openGooglePlay(Context context) {

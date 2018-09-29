@@ -188,6 +188,8 @@
         но вы тем самым внесете огромный вклад в дальнейшие проекты.
         Спасибо за поддержку!
     </string>
+    <string name="choose_mail_client">Выберите клиент для отправки письма</string>
+
     <!-- End of Shared Stuff -->
 
 </resources>

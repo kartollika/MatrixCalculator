@@ -76,13 +76,13 @@ public class UpdateNotifier {
 
                     sendNotificationInPanel(message);
                 } catch (Exception e) {
-                    Toasty.warning(context, context.getString(R.string.checkerservice_click_notification_to_proceed), Toast.LENGTH_LONG).show();
+                    Toasty.info(context, context.getString(R.string.checkerservice_click_notification_to_proceed), Toast.LENGTH_LONG).show();
                     sendNotificationInPanel(message);
                 }
             } else {
                 try {
                     snackbar = Snackbar.make(activity.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);
-                    snackbar.setAction("Good!", new View.OnClickListener() {
+                    snackbar.setAction(R.string.snackbar_good, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             snackbar.dismiss();

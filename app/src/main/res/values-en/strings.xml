@@ -61,6 +61,8 @@
     <string name="checkerservice_connection_error">Connection error</string>
     <string name="update_via_google_play">"Update your application via Google Play</string>
     <string name="try_again">Try again!</string>
+    <string name="snackbar_good">Good!</string>
+    <string name="snackbar_update">Update</string>
     <!-- End of Update Checker Service -->
 
 
@@ -74,6 +76,7 @@
     <string name="hide_all_views">Long click to hide all view elements in the top of the screen, Try this!</string>
     <string name="hide_card">Hide settings</string>
     <string name="show_card">Show settings</string>
+    <string name="save_successful">Successfully saved</string>
     <!-- End of Input Matrix Activity -->
 
 
@@ -167,6 +170,8 @@
     </string>
 
     <string name="choose_mail_client">Choose the client for sending email..</string>
+
+
 
 
     <!-- End of Shared Stuff -->

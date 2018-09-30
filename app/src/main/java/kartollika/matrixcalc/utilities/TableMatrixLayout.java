@@ -38,7 +38,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
         @Override
         public String numberToString(Number number) {
             try {
-                return String.valueOf(RationalNumber.parseRational(number).doubleValue());
+                return String.valueOf(number.doubleValue());
             } catch (Exception e) {
                 return String.valueOf(number);
             }
@@ -69,7 +69,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
     private int curRows = 0;
     private int curColumns = 0;
     private boolean isAugmented = false;
-    private List<Pair<EditTextMatrixCell, Number>> cells = new ArrayList<>();
+    private List<List<Pair<EditTextMatrixCell, Number>>> cells = new ArrayList<>();
     private TableChangeListener tableChangeListener = new TableChangeListener() {
         @Override
         public void onTableChange() {
@@ -201,6 +201,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
 
     public void addRow() {
         for (int i = 0; i < getChildCount(); ++i) {
+            List<Pair<EditTextMatrixCell, Number>> columnsListMatrixCells = cells.get(i);
             final int curColumn = i;
             final LinearLayout row = (LinearLayout) getChildAt(i);
             FrameLayout editTextMatrixCell = newEditTextMatrixCellInstance(new DrawableSupplier() {
@@ -213,6 +214,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
                 }
             }, 0);
 
+            columnsListMatrixCells.add(new Pair<>((EditTextMatrixCell) editTextMatrixCell.getChildAt(0), (Number) 0));
             row.addView(editTextMatrixCell);
         }
 
@@ -227,6 +229,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
 
         for (int i = 0; i < getChildCount(); ++i) {
             LinearLayout ll = (LinearLayout) getChildAt(i);
+            cells.get(i).remove(curRows - 1);
             ll.removeViewAt(curRows - 1);
         }
 
@@ -240,22 +243,31 @@ public class TableMatrixLayout extends LinearLayoutCompat {
 
     public void addColumn(Matrix.RowIterator iterator) {
         LinearLayout newColumn = newLinearLayoutInstance();
+
+        List<Pair<EditTextMatrixCell, Number>> newColumnListEditCells = new ArrayList<>();
+
         for (int i = 0; i < curRows; ++i) {
             final int curRow = i;
+
+            Number next = iterator != null ? iterator.next() : 0;
             FrameLayout editTextMatrixCell = newEditTextMatrixCellInstance(new DrawableSupplier() {
                 @Override
                 public Integer get() {
                     return getMainDrawable(curColumns, curRow);
                 }
-            }, iterator == null ? 0 : iterator.next());
+            }, next);
 
+            newColumnListEditCells.add(new Pair<>((EditTextMatrixCell) editTextMatrixCell.getChildAt(0), next));
             newColumn.addView(editTextMatrixCell);
         }
         if (isAugmented) {
+            cells.add(curColumns, newColumnListEditCells);
             addView(newColumn, curColumns);
         } else {
+            cells.add(newColumnListEditCells);
             addView(newColumn);
         }
+
 
         curColumns++;
         tableChangeListener.onTableChange();
@@ -275,7 +287,9 @@ public class TableMatrixLayout extends LinearLayoutCompat {
 
         if (isAugmented) {
             removeViewAt(curColumns-- - 1);
+            cells.remove(curColumns);
         } else {
+            cells.remove(curColumns - 1);
             removeViewAt(--curColumns);
         }
         tableChangeListener.onTableChange();
@@ -365,9 +379,6 @@ public class TableMatrixLayout extends LinearLayoutCompat {
         } else {
             cellEditText.setTextIsSelectable(true);
         }
-
-        cells.add(new Pair<EditTextMatrixCell, Number>(cellEditText, number));
-
         return fl;
     }
 
@@ -384,27 +395,32 @@ public class TableMatrixLayout extends LinearLayoutCompat {
     }
 
     public void updateNumbers(ITextOutputFormat iTextOutputFormat) {
-        for (Pair<EditTextMatrixCell, Number> cellPair : cells) {
-            if (cellPair.first == null) {
-                continue;
+        for (List<Pair<EditTextMatrixCell, Number>> pairList : cells) {
+            for (Pair<EditTextMatrixCell, Number> pair : pairList) {
+                if (pair.first == null) {
+                    continue;
+                }
+                pair.first.setText(iTextOutputFormat.numberToString(pair.second));
             }
-            cellPair.first.setText(iTextOutputFormat.numberToString(cellPair.second));
         }
     }
 
     public void updateNexts() {
-        EditTextMatrixCell startCell = cells.get(0).first;
-        if (startCell == null) {
-            return;
-        }
-        for (int i = 1; i < cells.size(); ++i) {
-            EditTextMatrixCell nextCell = cells.get(i).first;
-            if (nextCell == null) {
-                continue;
-            }
+        int cnt = 0;
+        for (int i = 0; i < cells.size(); ++i) {
+            List<Pair<EditTextMatrixCell, Number>> pairList = cells.get(i);
+            for (int j = 0; j < pairList.size(); ++j) {
+                EditTextMatrixCell cell = pairList.get(j).first;
+                if (cell == null) return;
 
-            startCell.setNextFocusForwardId(nextCell.getId());
-            startCell = nextCell;
+                if (i == curColumns - 1 && j == curRows - 1) {
+                    cell.setId(cnt);
+                    return;
+                }
+
+                cell.setId(cnt);
+                cell.setNextFocusForwardId(++cnt);
+            }
         }
     }
 

@@ -68,23 +68,33 @@ public class EditTextMatrixCell extends android.support.v7.widget.AppCompatEditT
             text = "";
         }
 
+
         if (text.length() == 0) {
-            setText("-");
-            setSelection(selectionStart + 1);
+            try {
+                setText("-");
+                setSelection(selectionStart + 1);
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return;
         }
 
-        char first = text.charAt(0);
-        if (first == '-') {
-            text = text.replaceFirst("-", "");
-            setText(text);
-            if (selectionStart != 0) {
-                setSelection(selectionStart - 1);
+        try {
+            char first = text.charAt(0);
+            if (first == '-') {
+                text = text.replaceFirst("-", "");
+                setText(text);
+                if (selectionStart != 0) {
+                    setSelection(selectionStart - 1);
+                }
+            } else {
+                text = "-" + text;
+                setText(text);
+                setSelection(selectionStart + 1);
             }
-        } else {
-            text = "-" + text;
-            setText(text);
-            setSelection(selectionStart + 1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -93,26 +103,33 @@ public class EditTextMatrixCell extends android.support.v7.widget.AppCompatEditT
         Editable text = getText();
         if (text == null) return;
 
-        if (!hasDivider) {
-            text.insert(selectionStart, ".");
-            setText(text);
-            setSelection(selectionStart + 1);
-            return;
+        try {
+            if (!hasDivider) {
+                text.insert(selectionStart, ".");
+                setText(text);
+                setSelection(selectionStart + 1);
+                return;
+            }
+
+            switchDivider(selectionStart, text);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        switchDivider(selectionStart, text);
-
     }
 
     private void switchDivider(int selectionStart, Editable text) {
-        if (text.charAt(selectionStart - 1) == '.') {
-            text.replace(selectionStart - 1, selectionStart, "/");
-        } else if (text.charAt(selectionStart - 1) == '/') {
-            text.replace(selectionStart - 1, selectionStart, ".");
-        }
+        try {
+            if (text.charAt(selectionStart - 1) == '.') {
+                text.replace(selectionStart - 1, selectionStart, "/");
+            } else if (text.charAt(selectionStart - 1) == '/') {
+                text.replace(selectionStart - 1, selectionStart, ".");
+            }
 
-        setText(text);
-        setSelection(selectionStart);
+            setText(text);
+            setSelection(selectionStart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setHasMinus(boolean hasMinus) {

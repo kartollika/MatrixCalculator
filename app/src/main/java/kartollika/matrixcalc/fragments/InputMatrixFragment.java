@@ -137,7 +137,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
         });*/
 
         ScrollView sv = v.findViewById(R.id.verScroll);
-        sv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+        sv.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         sv.setFocusable(true);
         sv.setFocusableInTouchMode(true);
         sv.setOnTouchListener(new View.OnTouchListener() {
@@ -317,7 +317,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
             case R.id.saveButton: {
                 try {
                     passIntoManager(saveMatrix(curRows, curColumns));
-                    Toasty.success(requireContext(), "Successfully saved").show();
+                    Toasty.success(requireContext(), getString(R.string.save_successful)).show();
                     requireActivity().finish();
                 } catch (NumberFormatException nfe) {
                     Toasty.error(requireContext(), nfe.getMessage(), Toast.LENGTH_LONG).show();
@@ -337,31 +337,15 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
             LinearLayout child = (LinearLayout) table.getChildAt(i);
             for (int j = 0; j < child.getChildCount(); ++j) {
                 EditTextMatrixCell cell = (EditTextMatrixCell) ((FrameLayout) child.getChildAt(j)).getChildAt(0);
-                String text;
-                try {
-                    text = String.valueOf(cell.getText());
-                } catch (NullPointerException npe) {
-                    text = "0";
-                }
+
+                String text = getTextFromCell(cell);
                 Number number;
+
                 try {
-                    number = Long.parseLong(text);
-                    checkRationaleNumberAsString(number.toString(), 18);
-                } catch (NumberFormatException nfeInteger) {
-                    try {
-                        number = Double.parseDouble(text);
-                        checkRationaleNumberAsString(number.toString(), 18);
-                    } catch (NumberFormatException nfeDouble) {
-                        try {
-                            number = RationalNumber.parseRational(text);
-                        } catch (NumberFormatException nfeRational) {
-                            if (text.isEmpty()) {
-                                number = 0;
-                            } else {
-                                throw new NumberFormatException(getString(R.string.invalid_value_in_cell, j + 1, i + 1));
-                            }
-                        }
-                    }
+                    number = parseTextFromCellToNumber(text);
+                } catch (NumberFormatException nfe) {
+                    throw new NumberFormatException(getString(R.string.invalid_value_in_cell,
+                            i + 1, j + 1));
                 }
                 values[j][i] = number;
             }
@@ -371,24 +355,15 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
             coefficients = new Number[this.curRows];
             LinearLayout coefficientColumn = (LinearLayout) table.getChildAt(table.getChildCount() - 1);
             for (int i = 0; i < this.curRows; ++i) {
-                EditTextMatrixCell cell = coefficientColumn.getChildAt(i).findViewById(R.id.cell);
-                String text = String.valueOf(cell.getText());
+                EditTextMatrixCell cell = (EditTextMatrixCell) ((FrameLayout) coefficientColumn.getChildAt(i)).getChildAt(0);
+
+                String text = getTextFromCell(cell);
                 Number number;
                 try {
-                    number = Integer.parseInt(text);
-                    checkRationaleNumberAsString(number.toString(), 18);
-                } catch (NumberFormatException nfeInteger) {
-                    try {
-                        number = Double.parseDouble(text);
-                        checkRationaleNumberAsString(number.toString(), 18);
-                    } catch (NumberFormatException nfeDouble) {
-                        try {
-                            number = RationalNumber.parseRational(text);
-                        } catch (NumberFormatException nfeRational) {
-                            throw new NumberFormatException(getString(R.string.invalid_value_in_cell,
-                                    i + 1, table.getChildCount()));
-                        }
-                    }
+                    number = parseTextFromCellToNumber(text);
+                } catch (NumberFormatException nfe) {
+                    throw new NumberFormatException(getString(R.string.invalid_value_in_cell,
+                            i + 1, table.getChildCount()));
                 }
                 coefficients[i] = number;
             }
@@ -397,6 +372,38 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
             newMatrix = new Matrix(values);
         }
         return newMatrix;
+    }
+
+    private String getTextFromCell(EditTextMatrixCell cell) {
+        try {
+            return String.valueOf(cell.getText());
+        } catch (NullPointerException npe) {
+            return "0";
+        }
+    }
+
+    private Number parseTextFromCellToNumber(String text) throws NumberFormatException {
+        Number number;
+        try {
+            number = Long.parseLong(text);
+            checkRationaleNumberAsString(number.toString(), 18);
+        } catch (NumberFormatException nfeInteger) {
+            try {
+                number = Double.parseDouble(text);
+                checkRationaleNumberAsString(number.toString(), 18);
+            } catch (NumberFormatException nfeDouble) {
+                try {
+                    number = RationalNumber.parseRational(text);
+                } catch (NumberFormatException nfeRational) {
+                    if (text.isEmpty()) {
+                        number = 0;
+                    } else {
+                        throw new NumberFormatException("Invalid value. Impossible to parse");
+                    }
+                }
+            }
+        }
+        return number;
     }
 
     private void checkRationaleNumberAsString(String numberString, int maxExponentValue) {

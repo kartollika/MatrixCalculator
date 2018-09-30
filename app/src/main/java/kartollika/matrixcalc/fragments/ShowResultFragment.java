@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -93,6 +94,7 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
             coefficient = (Number) potentialCoefficient;
         }
 
+        setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 
@@ -175,6 +177,7 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
 
         groupStepByStep = v.findViewById(R.id.groupStepByStep);
         hints = v.findViewById(R.id.hints);
+        hints.setMovementMethod(new ScrollingMovementMethod());
         table = v.findViewById(R.id.table);
         table.changeAccessType(TableMatrixLayout.READ_ONLY);
         progressSteps = v.findViewById(R.id.stepsProgressBar);
@@ -418,11 +421,6 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
                 buttonActivateSteps.setEnabled(false);
                 table.initTable(result);
                 return;
-            }
-
-            if (operation == Operation.SYSTEM_SOLVE) {
-                hints.setVisibility(View.VISIBLE);
-                hints.setText(Html.fromHtml((String) unaryManager.getSteps().get(unaryManager.getSteps().size() - 1)[1]));
             }
 
             if (operation == Operation.SYSTEM_SOLVE) {

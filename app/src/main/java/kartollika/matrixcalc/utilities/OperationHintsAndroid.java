@@ -16,19 +16,19 @@ public class OperationHintsAndroid extends OperationHints {
 
     @Override
     public String hintMultiplyLineByNumber(int line, Number coefficient) {
-        return context.getString(R.string.multiply_line, line, coefficient);
+        return context.getString(R.string.multiply_line, line + 1, coefficient);
     }
 
     @Override
     public String hintSwapLines(int line1, int line2) {
-        return context.getString(R.string.swap_lines, line1, line2);
+        return context.getString(R.string.swap_lines, line1 + 1, line2 + 1);
     }
 
     @Override
     public String hintSubtractLineFromLineMultipliedByNumber(int lineToSubtractFrom,
                                                              int lineToSubtract, Number coefficient) {
         return context.getString(R.string.subtract_line_from_multiplied_line,
-                lineToSubtractFrom, lineToSubtract, coefficient);
+                lineToSubtractFrom + 1, lineToSubtract + 1, coefficient);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class OperationHintsAndroid extends OperationHints {
     }
 
     @Override
-    public String hintSystemHasNotSolves() {
-        return context.getString(R.string.system_has_no_solves);
+    public String hintSystemHasNotSolves(int i, Number coefficient) {
+        return context.getString(R.string.system_has_no_solves, i + 1, coefficient);
     }
 
     @Override

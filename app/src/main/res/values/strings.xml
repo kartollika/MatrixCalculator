@@ -72,6 +72,8 @@
     <string name="checkerservice_connection_error">Ошибка подключения</string>
     <string name="update_via_google_play">"Обновите приложение с помощью Google Play</string>
     <string name="try_again">Попробовать снова</string>
+    <string name="snackbar_good">Хорошо!</string>
+    <string name="snackbar_update">Обновить</string>
 
     <!-- End of Update Checker Service -->
 
@@ -86,6 +88,8 @@
     <string name="hide_all_views">Долгое нажатие позволяет убрать все элементы из верхней половины экрана. Это удобно!</string>
     <string name="hide_card">Спрятать настройки</string>
     <string name="show_card">Показать настройки</string>
+    <string name="save_successful">Сохранено</string>
+
     <!-- End of Input Matrix Activity -->
 
 
@@ -168,7 +172,7 @@
 
 
     <!-- Shared Stuff -->
-    <string name="ok" translatable="false">Ok</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="ad_load_failed">Не удалось загрузить рекламный блок :с</string>
     <string name="email_subject">Матричный калькулятор (Отзыв)</string>
     <string name="email_text">Докладываю о..</string>

@@ -88,7 +88,6 @@ public class App extends Application {
                         App.getDeviceInfo(activity.getWindowManager()));
         emailIntent = Intent.createChooser(emailIntent, activity.getString(R.string.choose_mail_client));
         activity.startActivity(emailIntent);
-        //activity.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
     }
 
     public static void openGooglePlay(Context context) {

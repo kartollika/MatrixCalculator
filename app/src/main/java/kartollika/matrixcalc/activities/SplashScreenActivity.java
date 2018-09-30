@@ -1,9 +1,14 @@
 package kartollika.matrixcalc.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDelegate;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Window;
 
 import kartollika.matrixcalc.R;
@@ -11,6 +16,9 @@ import kartollika.matrixcalc.fragments.SplashScreenFragment;
 import kartollika.matrixcalc.utilities.UpdateCheckerService;
 
 public class SplashScreenActivity extends SingleFragmentActivity {
+
+    private static final String TAG = "SplashScreenActivity";
+    private static final int SPLASH_SCREEN_TIMEOUT = 1500;
 
     @Override
     protected Fragment createFragment() {
@@ -24,16 +32,39 @@ public class SplashScreenActivity extends SingleFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate: " + TextUtils.isEmpty(""));
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.SplashScreenActivityThemeDark);
         }
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getSupportActionBar().hide();
-        super.onCreate(savedInstanceState);
+        try {
+            getSupportActionBar().hide();
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
 
         if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                 .getBoolean(PreferenceActivity.KEY_AUTOUPDATE, true)) {
             startService(UpdateCheckerService.getUpdateCheckerService(getApplicationContext()));
         }
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadMainActivity(getApplicationContext());
+            }
+        }, SPLASH_SCREEN_TIMEOUT);
+    }
+
+    private void loadMainActivity(Context context) {
+        Intent i = new Intent(context, MainHubActivity.class);
+        startActivity(i);
+        finish();
     }
 }

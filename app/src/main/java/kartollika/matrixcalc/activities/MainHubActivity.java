@@ -33,8 +33,6 @@ import kartollika.matrixcalc.utilities.AdUtils;
 import kartollika.matrixcalc.utilities.InterstitialShow;
 import kartollika.matrixmodules.operations.Operation;
 
-import static kartollika.matrixcalc.utilities.AdUtils.rewardedVideoAd;
-
 public class MainHubActivity extends SingleFragmentActivity implements SolveCallback, IOperationSave {
 
     private AdView adView;
@@ -104,6 +102,7 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -223,19 +222,19 @@ public class MainHubActivity extends SingleFragmentActivity implements SolveCall
     protected void onDestroy() {
         super.onDestroy();
         AdUtils.destroyBanner(adView);
-        rewardedVideoAd.destroy(this);
+        AdUtils.getRewardedVideoAd().destroy(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        rewardedVideoAd.resume(this);
+        AdUtils.getRewardedVideoAd().resume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        rewardedVideoAd.pause(this);
+        AdUtils.getRewardedVideoAd().pause(this);
     }
 
     /**

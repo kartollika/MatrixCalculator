@@ -1,15 +1,13 @@
 package kartollika.matrixcalc.activities;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.Serializable;
 
@@ -18,16 +16,22 @@ import kartollika.matrixcalc.fragments.ShowResultFragment;
 import kartollika.matrixcalc.utilities.AdUtils;
 import kartollika.matrixmodules.operations.Operation;
 
-public class ShowResultActivity extends AppCompatActivity {
+public class ShowResultActivity extends SingleFragmentActivity {
 
     public static final String KEY_OPERATION_TO_SOLVE = "operation_to_solve";
+    public static final String EVENT_SHOW_RESULT = "show_result";
+    public static final String PARAM_OPERATION_CHOSEN = "chosen_operation";
     public static final String KEY_COEFFICIENT = "input_coefficient";
+    public static final String TAG = "ShowResultActivity";
+
+    private FirebaseAnalytics firebaseAnalytics;
 
     private AdView adView;
 
-    // @Override
+    @Override
     protected Fragment createFragment() {
         Operation operation = (Operation) getIntent().getSerializableExtra(KEY_OPERATION_TO_SOLVE);
+        sendAnalyticsChosenOperation(operation);
         Serializable number = getIntent().getSerializableExtra(KEY_COEFFICIENT);
         if (number == null) {
             return ShowResultFragment.newInstance(operation);
@@ -36,7 +40,13 @@ public class ShowResultActivity extends AppCompatActivity {
         }
     }
 
-    // @Override
+    private void sendAnalyticsChosenOperation(Operation operation) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(PARAM_OPERATION_CHOSEN, operation.toString());
+        firebaseAnalytics.logEvent(EVENT_SHOW_RESULT, bundle);
+    }
+
+    @Override
     protected int getLayoutView() {
         return R.layout.show_result_activity;
     }
@@ -47,23 +57,9 @@ public class ShowResultActivity extends AppCompatActivity {
             setTheme(R.style.ShowResultActivityThemeDark);
         }
 
-        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
-        //if (!isTablet) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        // }
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutView());
-
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment currFragment = fm.findFragmentById(R.id.fragment_container);
-        if (currFragment == null) {
-            currFragment = createFragment();
-            fm.beginTransaction()
-                    .replace(R.id.fragment_container, currFragment)
-                    .commit();
-        }
-        //super.onCreate(savedInstanceState);
 
         adView = findViewById(R.id.adView);
         AdUtils.initBanner(this);

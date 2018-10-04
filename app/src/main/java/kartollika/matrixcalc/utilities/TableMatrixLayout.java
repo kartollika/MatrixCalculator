@@ -44,6 +44,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
             }
         }
     };
+
     public static final ITextOutputFormat RATIONALES_FORMATTER = new ITextOutputFormat() {
         @Override
         public String numberToString(Number number) {
@@ -54,7 +55,8 @@ public class TableMatrixLayout extends LinearLayoutCompat {
             }
         }
     };
-    private static final ITextOutputFormat defaultFormatter = new ITextOutputFormat() {
+
+    public static final ITextOutputFormat DEFAULT_FORMATTER = new ITextOutputFormat() {
         @Override
         public String numberToString(Number number) {
             String stringValue = String.valueOf(number);
@@ -64,7 +66,7 @@ public class TableMatrixLayout extends LinearLayoutCompat {
             return stringValue;
         }
     };
-    private ITextOutputFormat formatter = defaultFormatter;
+    private static ITextOutputFormat formatter = DEFAULT_FORMATTER;
     private int accessType = 1;
     private int curRows = 0;
     private int curColumns = 0;
@@ -169,32 +171,41 @@ public class TableMatrixLayout extends LinearLayoutCompat {
     public void addAugmentedMatrix(Matrix secondMatrix) {
         for (int i = 0; i < secondMatrix.getColumns(); ++i) {
             LinearLayout llAug = newLinearLayoutInstance();
+            List<Pair<EditTextMatrixCell, Number>> augmentedColumnList = new ArrayList<>();
 
             for (int j = 0; j < secondMatrix.getRows(); ++j) {
+                Number number = secondMatrix.getValue(j, i);
                 FrameLayout editTextMatrixCell = newEditTextMatrixCellInstance(new DrawableSupplier() {
                     @Override
                     public Integer get() {
                         return R.drawable.back_extens;
                     }
-                }, secondMatrix.getValue(j, i));
+                }, number);
+                augmentedColumnList.add(new Pair<>((EditTextMatrixCell) editTextMatrixCell.getChildAt(0), number));
                 llAug.addView(editTextMatrixCell);
             }
+            cells.add(augmentedColumnList);
             addView(llAug);
         }
         tableChangeListener.onTableChange();
     }
 
     public void addAugmentedColumn(AugmentedMatrix augmentedMatrix) {
+        List<Pair<EditTextMatrixCell, Number>> augmentedColumn = new ArrayList<>();
+
         LinearLayout ll = newLinearLayoutInstance();
         for (int i = 0; i < curRows; ++i) {
+            Number number = augmentedMatrix.getValue(i, augmentedMatrix.getColumns());
             FrameLayout editTextMatrixCell = newEditTextMatrixCellInstance(new DrawableSupplier() {
                 @Override
                 public Integer get() {
                     return R.drawable.back_extens;
                 }
-            }, augmentedMatrix.getValue(i, augmentedMatrix.getColumns()));
+            }, number);
+            augmentedColumn.add(new Pair<>((EditTextMatrixCell) editTextMatrixCell.getChildAt(0), number));
             ll.addView(editTextMatrixCell);
         }
+        cells.add(augmentedColumn);
         addView(ll);
         tableChangeListener.onTableChange();
     }
@@ -394,13 +405,13 @@ public class TableMatrixLayout extends LinearLayoutCompat {
         return curColumns;
     }
 
-    public void updateNumbers(ITextOutputFormat iTextOutputFormat) {
+    public void updateNumbers() {
         for (List<Pair<EditTextMatrixCell, Number>> pairList : cells) {
             for (Pair<EditTextMatrixCell, Number> pair : pairList) {
                 if (pair.first == null) {
                     continue;
                 }
-                pair.first.setText(iTextOutputFormat.numberToString(pair.second));
+                pair.first.setText(formatter.numberToString(pair.second));
             }
         }
     }

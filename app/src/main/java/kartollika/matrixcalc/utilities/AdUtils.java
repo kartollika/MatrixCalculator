@@ -27,10 +27,18 @@ import static kartollika.matrixcalc.App.TARGET_DEVICE_ID;
 
 public final class AdUtils {
 
-    public static RewardedVideoAd rewardedVideoAd;
-
+    private static RewardedVideoAd rewardedVideoAd;
     private static InterstitialAd interstitialAd;
     private static Resources resources = null;
+
+
+    public static RewardedVideoAd getRewardedVideoAd() {
+        return rewardedVideoAd;
+    }
+
+    public static InterstitialAd getInterstitialAd() {
+        return interstitialAd;
+    }
 
     public static void initResources(Context context) {
         resources = context.getResources();
@@ -94,7 +102,7 @@ public final class AdUtils {
 
             @Override
             public void onRewardedVideoAdFailedToLoad(int i) {
-                Toasty.success(activity, activity.getString(R.string.failed_watch_ad_connection_problem),
+                Toasty.error(activity, activity.getString(R.string.failed_watch_ad_connection_problem),
                         Toast.LENGTH_LONG).show();
             }
 
@@ -178,7 +186,7 @@ public final class AdUtils {
             rewardedVideoAd.show();
         } else {
             loadRewardVideoAd();
-            Toasty.warning(context, context.getString(R.string.try_again_open_reward_video),
+            Toasty.info(context, context.getString(R.string.try_again_open_reward_video),
                     Toast.LENGTH_SHORT).show();
         }
     }

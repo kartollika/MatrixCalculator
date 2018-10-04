@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.BuildConfig;
 import kartollika.matrixcalc.R;
@@ -40,9 +42,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
     public static final String KEY_CHECK_UPDATES = "check_updates";
     public static final String KEY_SEND_REPORT = "send_report";
     public static final String KEY_OPEN_GOOGLE_PLAY = "open_playmarket";
-
     private static final String REQUEST_SET_DEFAULT_ROWS = "set_default_rows";
     private static final String REQUEST_SET_DEFAULT_COLUMNS = "set_default_columns";
+    public static final String EVENT_CLOSE_SETTINGS = "save_settings";
+    private FirebaseAnalytics firebaseAnalytics;
     private SharedPreferences sharedPreferences;
 
     private Preference defaultRowsPreference;
@@ -61,6 +64,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.SettingsActivityThemeDark);
         }
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         App.getUpdateCheckerBroadcastReceiver().setActivity(PreferenceActivity.this);
 
@@ -201,6 +205,18 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
             }
         });
 
+        checkAutoUpdatePreference.setChecked(sharedPreferences.getBoolean(KEY_AUTOUPDATE, true));
+        checkAutoUpdatePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                sharedPreferences
+                        .edit()
+                        .putBoolean(KEY_AUTOUPDATE, (Boolean) newValue)
+                        .apply();
+                return true;
+            }
+        });
+
         versionPreference.setSummary(BuildConfig.VERSION_NAME + " (build " + BuildConfig.VERSION_CODE + ")");
         versionPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -238,6 +254,14 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
     public void onDestroy() {
         super.onDestroy();
         App.initUpdaterBroadcastReceiver(getApplicationContext());
+//        sendAnalytics();
+    }
+
+    private void sendAnalytics() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_NIGHTMODE, sharedPreferences.getBoolean(KEY_NIGHTMODE, false));
+        bundle.putBoolean(KEY_AUTOUPDATE, sharedPreferences.getBoolean(KEY_AUTOUPDATE, true));
+        firebaseAnalytics.logEvent(EVENT_CLOSE_SETTINGS, bundle);
     }
 
     /**

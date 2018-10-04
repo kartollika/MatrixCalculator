@@ -66,7 +66,7 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
     private UnaryOperationStrategyManager unaryManager = new UnaryOperationStrategyManager();
     private BinaryOperationStrategyManager binaryManager = new BinaryOperationStrategyManager();
     private TableMatrixLayout table;
-    private ITextOutputFormat formatter;
+    private ITextOutputFormat formatter = TableMatrixLayout.DEFAULT_FORMATTER;
     private int formatterCnt = 0;
 
     public static ShowResultFragment newInstance(Operation operation) {
@@ -86,7 +86,6 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate called");
         super.onCreate(savedInstanceState);
         operation = (Operation) getArguments().getSerializable(KEY_OPERATION_TO_SOLVE);
         Serializable potentialCoefficient = getArguments().getSerializable(KEY_COEFFICIENT);
@@ -149,10 +148,12 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
 
             case R.id.menu_item_convert_values: {
                 if (formatterCnt == 0) {
-                    table.updateNumbers(TableMatrixLayout.DOUBLES_FORMATTER);
+                    table.setFormatter(TableMatrixLayout.DOUBLES_FORMATTER);
                 } else {
-                    table.updateNumbers(TableMatrixLayout.RATIONALES_FORMATTER);
+                    table.setFormatter(TableMatrixLayout.RATIONALES_FORMATTER);
                 }
+                table.updateNumbers();
+
                 formatterCnt = (formatterCnt + 1) % 2;
                 requireActivity().invalidateOptionsMenu();
             }
@@ -163,7 +164,6 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "OnCreateView called");
         View v = inflater.inflate(R.layout.fragment_show_result, container, false);
 
         buttonActivateSteps = v.findViewById(R.id.buttonActivateSteps);
@@ -342,6 +342,7 @@ public class ShowResultFragment extends Fragment implements View.OnClickListener
         } else {
             table.setTable((Matrix) thisStep[0]);
         }
+        table.updateNumbers();
         hints.setText(Html.fromHtml((String) thisStep[1]));
     }
 

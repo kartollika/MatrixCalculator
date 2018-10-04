@@ -9,12 +9,17 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import kartollika.matrixcalc.activities.PreferenceActivity;
 import kartollika.matrixcalc.utilities.AdUtils;
 import kartollika.matrixcalc.utilities.InterstitialShow;
 import kartollika.matrixcalc.utilities.UpdateCheckerBroadcastReceiver;
@@ -27,6 +32,7 @@ public class App extends Application {
     public static final String email = "maksimow.dmitrij@yandex.ru";
     private static final String TAG = "APP";
     private static final String APP_ID = "ca-app-pub-9193176037122415~9633966613";
+    private static final String APPLICATION_SETTINGS = "application_settings";
 
     public static String CUR_REWARD;
     private static String version;
@@ -35,6 +41,7 @@ public class App extends Application {
     private static UpdateCheckerBroadcastReceiver updateCheckerBroadcastReceiver;
     private SharedPreferences preferences;
     private MatrixManager matrixManager;
+    private FirebaseAnalytics firebaseAnalytics;
 
     public static void setEstimatedTimeBanners(long time) {
         estimatedTimeRemovingBanners = time;
@@ -124,6 +131,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        sendAnalytics();
+
         version = initVersion();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         matrixManager = MatrixManager.getInstance(this);
@@ -139,10 +150,18 @@ public class App extends Application {
     }
 
     private void initAds() {
-        //MobileAds.initialize(getApplicationContext(), APP_ID);
+        MobileAds.initialize(getApplicationContext(), APP_ID);
         AdUtils.initResources(this);
         InterstitialShow.CUR_OPERATIONS = preferences.getInt("interstitialCurOperations", 1);
         setEstimatedTimeBanners(preferences.getLong("bannersEstimatedTime", System.currentTimeMillis()));
         setEstimatedTimeInterstitial(preferences.getLong("interstitialEstimatedTime", System.currentTimeMillis()));
+    }
+
+    private void sendAnalytics() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(PreferenceActivity.KEY_NIGHTMODE, sharedPreferences.getBoolean(PreferenceActivity.KEY_NIGHTMODE, false));
+        bundle.putBoolean(PreferenceActivity.KEY_AUTOUPDATE, sharedPreferences.getBoolean(PreferenceActivity.KEY_AUTOUPDATE, true));
+        firebaseAnalytics.logEvent(APPLICATION_SETTINGS, bundle);
     }
 }

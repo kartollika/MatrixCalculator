@@ -24,13 +24,12 @@ import kartollika.matrixcalc.BuildConfig;
 
 public class UpdateCheckerService extends Service {
 
-    private static final String CHECK_UPDATE_URL = "https://rawgit.com/kartollika/Matrix_calculator-Android/master/app/latest_version_new.txt";
+    private static final String CHECK_UPDATE_URL = "https://rawgit.com/kartollika/MatrixCalculator/master/app/last_version.txt";
     private static final String TAG = "UpdateCheckerService";
     private static final int TIMEOUT_GETTER = 5000;
 
     public static Intent getUpdateCheckerService(Context context) {
-        Intent intent = new Intent(context, UpdateCheckerService.class);
-        return intent;
+        return new Intent(context, UpdateCheckerService.class);
     }
 
     @Override

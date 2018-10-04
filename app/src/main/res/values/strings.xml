@@ -68,7 +68,7 @@
     <string name="checkerservice_update_available">Доступно обновление!</string>
     <string name="checkerservice_click_to_update">Нажмите, чтобы обновить приложение до версии %1$s</string>
     <string name="checkerservice_no_update_available">Установлена самая новая версия!</string>
-    <string name="checkerservice_click_notification_to_proceed">Нажмите на соответстующее уведомление на панели, чтобы обновить приложение</string>
+    <string name="checkerservice_click_notification_to_proceed">Обновление доступно!\nНажмите на соответстующее уведомление на панели, чтобы обновить приложение</string>
     <string name="checkerservice_connection_error">Ошибка подключения</string>
     <string name="update_via_google_play">"Обновите приложение с помощью Google Play</string>
     <string name="try_again">Попробовать снова</string>

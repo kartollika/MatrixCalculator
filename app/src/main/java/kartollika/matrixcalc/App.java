@@ -150,7 +150,6 @@ public class App extends Application {
     }
 
     private void initAds() {
-        MobileAds.initialize(getApplicationContext(), APP_ID);
         AdUtils.initResources(this);
         InterstitialShow.CUR_OPERATIONS = preferences.getInt("interstitialCurOperations", 1);
         setEstimatedTimeBanners(preferences.getLong("bannersEstimatedTime", System.currentTimeMillis()));

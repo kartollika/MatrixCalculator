@@ -20,6 +20,7 @@ import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.BuildConfig;
 import kartollika.matrixcalc.R;
 
+import static android.provider.UserDictionary.Words.APP_ID;
 import static kartollika.matrixcalc.App.BLOCKING_BANNERS;
 import static kartollika.matrixcalc.App.BLOCKING_INTERSITIALS;
 import static kartollika.matrixcalc.App.CUR_REWARD;
@@ -41,6 +42,7 @@ public final class AdUtils {
     }
 
     public static void initResources(Context context) {
+        MobileAds.initialize(context, APP_ID);
         resources = context.getResources();
     }
 

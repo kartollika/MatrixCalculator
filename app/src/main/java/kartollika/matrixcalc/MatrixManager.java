@@ -13,14 +13,14 @@ public class MatrixManager {
     private static MatrixManager matrixManager;
     private SharedPreferences preferenceManager;
     private Context context;
-    private Matrix matrixA;
-    private boolean isAEdited = false;
+    private static Matrix matrixA;
+    private static boolean isAEdited = false;
 
-    private Matrix matrixB;
-    private boolean isBEdited = false;
+    private static Matrix matrixB;
+    private static boolean isBEdited = false;
 
-    private AugmentedMatrix matrixSystem;
-    private boolean isSystemEdited = false;
+    private static AugmentedMatrix matrixSystem;
+    private static boolean isSystemEdited = false;
 
     private MatrixManager(Context context) {
         preferenceManager = PreferenceManager.getDefaultSharedPreferences(context);

@@ -64,5 +64,11 @@
             android:key="open_playmarket"
             android:summary="@string/settings_rate_in_gp_summary"
             android:title="@string/settings_rate_in_gp_title" />
+
+        <Preference
+            android:icon="@drawable/ic_assistant_photo_black_24dp"
+            android:key="open_privacy_policy"
+            android:summary="@string/settings_open_privacy_policy_summary"
+            android:title="@string/settigns_open_privacy_policy_title" />
     </PreferenceCategory>
 </PreferenceScreen>

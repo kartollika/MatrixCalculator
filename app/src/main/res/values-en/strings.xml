@@ -37,6 +37,8 @@
     <string name="settings_rate_in_gp_summary">Enjoy this app? Please, take a moment to rate it</string>
     <string name="settings_check_updates_manually_title">Check updates</string>
     <string name="settings_check_updates_manually_summary">Check for newest version of application</string>
+    <string name="settings_open_privacy_policy_summary">View Privacy Policy for the application</string>
+    <string name="settigns_open_privacy_policy_title">Privacy Policy</string>
     <!-- End of Settings Activity -->
 
     <!-- Main Activity -->

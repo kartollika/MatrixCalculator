@@ -193,6 +193,8 @@
         Спасибо за поддержку!
     </string>
     <string name="choose_mail_client">Выберите клиент для отправки письма</string>
+    <string name="settings_open_privacy_policy_summary">Просмотреть политику конфиденциальности</string>
+    <string name="settigns_open_privacy_policy_title">Политика конфиденциальности</string>
 
     <!-- End of Shared Stuff -->
 

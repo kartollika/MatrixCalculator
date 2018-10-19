@@ -150,6 +150,8 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
 
         Log.i(TAG, "onCreateView: ");
 
+        setRetainInstance(true);
+
         return v;
 
     }
@@ -331,6 +333,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
      */
     private Matrix saveMatrix(int savingRows, int savingColumns) {
         Matrix newMatrix;
+        boolean rightFilled = true;
         Number[][] values = new Number[savingRows][savingColumns];
         Number[] coefficients;
         for (int i = 0; i < (matrixType == 2 ? table.getChildCount() - 1 : table.getChildCount()); ++i) {
@@ -344,8 +347,8 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
                 try {
                     number = parseTextFromCellToNumber(text);
                 } catch (NumberFormatException nfe) {
-                    throw new NumberFormatException(getString(R.string.invalid_value_in_cell,
-                            i + 1, j + 1));
+                    number = 0;
+                    rightFilled = false;
                 }
                 values[j][i] = number;
             }
@@ -513,6 +516,6 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_SAVED_MATRIX, saveMatrix(table.getCurRows(), table.getCurColumns()));
+        //outState.putSerializable(KEY_SAVED_MATRIX, saveMatrix(table.getCurRows(), table.getCurColumns()));
     }
 }

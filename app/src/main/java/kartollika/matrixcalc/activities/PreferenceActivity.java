@@ -3,6 +3,7 @@ package kartollika.matrixcalc.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -42,9 +43,12 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
     public static final String KEY_CHECK_UPDATES = "check_updates";
     public static final String KEY_SEND_REPORT = "send_report";
     public static final String KEY_OPEN_GOOGLE_PLAY = "open_playmarket";
+    public static final String KEY_OPEN_PRIVACY_POLICY = "open_privacy_policy";
+    public static final String EVENT_CLOSE_SETTINGS = "save_settings";
+    private static final String URI_PRIVACY_POLICY =
+            "https://docs.google.com/document/d/1W65n9GIgjbIOBAcv_haDEw5RHnBbDxKwChgKbaSWJX4/edit?usp=sharing";
     private static final String REQUEST_SET_DEFAULT_ROWS = "set_default_rows";
     private static final String REQUEST_SET_DEFAULT_COLUMNS = "set_default_columns";
-    public static final String EVENT_CLOSE_SETTINGS = "save_settings";
     private FirebaseAnalytics firebaseAnalytics;
     private SharedPreferences sharedPreferences;
 
@@ -57,6 +61,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
     private Preference sendReportPreference;
     private Preference checkManuallyUpdatePreference;
     private Preference openGooglePlayPreference;
+    private Preference openPrivacyPolicy;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +85,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
         sendReportPreference = findPreference(KEY_SEND_REPORT);
         checkManuallyUpdatePreference = findPreference(KEY_CHECK_UPDATES);
         openGooglePlayPreference = findPreference(KEY_OPEN_GOOGLE_PLAY);
+        openPrivacyPolicy = findPreference(KEY_OPEN_PRIVACY_POLICY);
 
         bindOnClickPreferences();
     }
@@ -248,20 +254,26 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
                 return true;
             }
         });
+
+        openPrivacyPolicy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                openDocument(URI_PRIVACY_POLICY);
+                return true;
+            }
+        });
+    }
+
+    public void openDocument(String uriString) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(uriString));
+        startActivity(Intent.createChooser(i, "Choose an Application"));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         App.initUpdaterBroadcastReceiver(getApplicationContext());
-//        sendAnalytics();
-    }
-
-    private void sendAnalytics() {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(KEY_NIGHTMODE, sharedPreferences.getBoolean(KEY_NIGHTMODE, false));
-        bundle.putBoolean(KEY_AUTOUPDATE, sharedPreferences.getBoolean(KEY_AUTOUPDATE, true));
-        firebaseAnalytics.logEvent(EVENT_CLOSE_SETTINGS, bundle);
     }
 
     /**

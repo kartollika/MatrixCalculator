@@ -2,15 +2,15 @@ package kartollika.matrixcalc.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.Serializable;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.fragments.ShowResultFragment;
 import kartollika.matrixcalc.utilities.AdUtils;

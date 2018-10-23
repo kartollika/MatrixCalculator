@@ -10,11 +10,6 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +21,11 @@ import android.widget.NumberPicker;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import kartollika.matrixcalc.App;
 import kartollika.matrixcalc.BuildConfig;
 import kartollika.matrixcalc.R;
@@ -105,7 +105,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 int defaultRows = sharedPreferences.getInt(KEY_DEFAULT_ROWS, 3);
-                View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_dimension_picker, null);
+                View v = LayoutInflater.from(PreferenceActivity.this).inflate(R.layout.dialog_dimension_picker, null);
                 final NumberPicker numberPicker = v.findViewById(R.id.numberPicker);
                 numberPicker.setMinValue(1);
                 numberPicker.setMaxValue(12);
@@ -138,7 +138,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 int defaultRows = sharedPreferences.getInt(KEY_DEFAULT_COLUMNS, 3);
-                View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_dimension_picker, null);
+                View v = LayoutInflater.from(PreferenceActivity.this).inflate(R.layout.dialog_dimension_picker, null);
                 final NumberPicker numberPicker = v.findViewById(R.id.numberPicker);
                 numberPicker.setMinValue(1);
                 numberPicker.setMaxValue(12);

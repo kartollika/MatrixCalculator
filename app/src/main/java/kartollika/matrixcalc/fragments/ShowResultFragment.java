@@ -2,13 +2,8 @@ package kartollika.matrixcalc.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.Group;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +18,10 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Group;
+import androidx.fragment.app.Fragment;
 import es.dmoral.toasty.Toasty;
 import kartollika.matrixcalc.ITextOutputFormat;
 import kartollika.matrixcalc.MatrixManager;

@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import kartollika.matrixcalc.MatrixManager;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.SolveCallback;
@@ -95,7 +95,7 @@ public class LinearSystemHubFragment extends Fragment implements View.OnClickLis
 
     private void updateDimensionsOnButtons() {
         MatrixManager matrixManager = MatrixManager.getInstance(requireContext());
-        String sSystem = "<big>B</big><sup><small>" + String.valueOf(matrixManager.getMatrixSystem().getRows())
+        String sSystem = "<big>A</big><sup><small>" + String.valueOf(matrixManager.getMatrixSystem().getRows())
                 + "x" + String.valueOf(matrixManager.getMatrixSystem().getColumns()) + "</small></sup>";
         buttonSystem.setText(Html.fromHtml(sSystem));
     }

@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import es.dmoral.toasty.Toasty;
 import kartollika.matrixcalc.IOperationSave;
 import kartollika.matrixcalc.MatrixManager;
@@ -38,10 +38,9 @@ public class DefaultOperationsHubFragment extends Fragment implements View.OnCli
     public static final String TAG = "DefaultOperHubFragment";
     public static final String KEY_OPERATION_CHOSEN = "operation_chosen";
     public static final String KEY_OPERATION_TEXT = "operation_text";
-
+    public static final int REQUEST_SOLVE = 1;
     private static final String DIALOG_CONSTANT = "input_constant";
     private static final int REQUEST_OPERATION = 0;
-    public static final int REQUEST_SOLVE = 1;
     private static final int REQUEST_CONSTANT = 2;
     private Button buttonA;
     private Button buttonB;

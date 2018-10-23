@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.fragments.SplashScreenFragment;
 import kartollika.matrixcalc.utilities.UpdateCheckerService;

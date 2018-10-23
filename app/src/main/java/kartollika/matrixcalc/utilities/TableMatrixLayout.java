@@ -2,8 +2,8 @@ package kartollika.matrixcalc.utilities;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.LinearLayoutCompat;
+import androidx.core.util.Pair;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -279,7 +279,6 @@ public class TableMatrixLayout extends LinearLayoutCompat {
             addView(newColumn);
         }
 
-
         curColumns++;
         tableChangeListener.onTableChange();
     }
@@ -424,9 +423,16 @@ public class TableMatrixLayout extends LinearLayoutCompat {
                 EditTextMatrixCell cell = pairList.get(j).first;
                 if (cell == null) return;
 
-                if (i == curColumns - 1 && j == curRows - 1) {
-                    cell.setId(cnt);
-                    return;
+                if (!isAugmented) {
+                    if (i == curColumns - 1 && j == curRows - 1) {
+                        cell.setId(cnt);
+                        return;
+                    }
+                } else {
+                    if (i == curColumns && j == curRows) {
+                        cell.setId(cnt);
+                        return;
+                    }
                 }
 
                 cell.setId(cnt);

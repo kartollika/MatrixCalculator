@@ -19,6 +19,6 @@
         android:id="@+id/menu_item_convert_values"
         android:icon="@drawable/ic_convert_to_doubles"
         android:title="@string/convert_to_doubles"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="ifRoom" />
 
 </menu>

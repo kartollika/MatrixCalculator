@@ -6,10 +6,6 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.Group;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +18,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Group;
+import androidx.fragment.app.Fragment;
 import es.dmoral.toasty.Toasty;
 import kartollika.matrixcalc.MatrixManager;
 import kartollika.matrixcalc.R;
@@ -230,19 +230,29 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
                     matrix = new Matrix(3, 3);
                 }
             }
-            table.initTable(matrix);
+        } else {
+            int prevRows = savedInstanceState.getInt(KEY_CURRENT_ROWS);
+            int prevColumns = savedInstanceState.getInt(KEY_CURRENT_COLUMNS);
+            int type = savedInstanceState.getInt(KEY_MATRIX_TYPE);
+
+            if (type < 2) {
+                matrix = new Matrix(prevRows, prevColumns);
+            } else {
+                matrix = new AugmentedMatrix(prevRows, prevColumns);
+            }
         }
+        table.initTable(matrix);
         Log.i(TAG, "onViewCreated: ");
     }
 
-    @Override
+    /*@Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
+        *//*if (savedInstanceState != null) {
             matrix = (Matrix) savedInstanceState.getSerializable(KEY_SAVED_MATRIX);
             table.initTable(matrix);
-        }
-    }
+        }*//*
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -347,8 +357,8 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
                 try {
                     number = parseTextFromCellToNumber(text);
                 } catch (NumberFormatException nfe) {
-                    number = 0;
-                    rightFilled = false;
+                    throw new NumberFormatException(getString(R.string.invalid_value_in_cell,
+                            i + 1, j + 1));
                 }
                 values[j][i] = number;
             }
@@ -397,7 +407,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
             } catch (NumberFormatException nfeDouble) {
                 try {
                     number = RationalNumber.parseRational(text);
-                } catch (NumberFormatException nfeRational) {
+                } catch (Exception e) {
                     if (text.isEmpty()) {
                         number = 0;
                     } else {
@@ -500,7 +510,7 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     public void onStop() {
         super.onStop();
         PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
-                .putBoolean(KEY_MATRIX_TYPE, isNotificationRequired)
+                .putBoolean(KEY_HIDE_CARD_NOTIFICATION, isNotificationRequired)
                 .apply();
     }
 
@@ -516,6 +526,8 @@ public class InputMatrixFragment extends Fragment implements View.OnClickListene
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        //outState.putSerializable(KEY_SAVED_MATRIX, saveMatrix(table.getCurRows(), table.getCurColumns()));
+        outState.putInt(KEY_CURRENT_ROWS, curRows);
+        outState.putInt(KEY_CURRENT_COLUMNS, curColumns);
+        outState.putInt(KEY_MATRIX_TYPE, matrixType);
     }
 }

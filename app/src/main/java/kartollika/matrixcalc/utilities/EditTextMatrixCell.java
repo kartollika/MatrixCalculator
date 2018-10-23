@@ -5,7 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 
-public class EditTextMatrixCell extends android.support.v7.widget.AppCompatEditText {
+public class EditTextMatrixCell extends androidx.appcompat.widget.AppCompatEditText {
 
     public static final String TAG = "EditTextMatrixCell";
 

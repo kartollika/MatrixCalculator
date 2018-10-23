@@ -1,11 +1,11 @@
 package kartollika.matrixcalc.activities;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.Window;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import kartollika.matrixcalc.R;
 import kartollika.matrixcalc.fragments.InputMatrixFragment;
 

@@ -2,7 +2,7 @@ package kartollika.matrixcalc;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
 import kartollika.matrixcalc.activities.PreferenceActivity;
 import kartollika.matrixmodules.matrix.AugmentedMatrix;
